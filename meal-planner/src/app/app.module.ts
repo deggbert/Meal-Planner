@@ -11,13 +11,25 @@ import { AppComponent } from './app.component';
 import { FoodDatabaseComponent } from './food-database/food-database.component';
 import { FoodInputComponent } from './food-input/food-input.component';
 import { MessagesComponent } from './messages/messages.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { MealPrepComponent } from './meal-prep/meal-prep.component';
+import { DailyMealPlanComponent } from './daily-meal-plan/daily-meal-plan.component';
+import { FoodStockComponent } from './food-stock/food-stock.component';
+import { GroceryTripComponent } from './grocery-trip/grocery-trip.component';
+import { FoodEditComponent } from './food-edit/food-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FoodDatabaseComponent,
     FoodInputComponent,
-    MessagesComponent
+    MessagesComponent,
+    UserInfoComponent,
+    MealPrepComponent,
+    DailyMealPlanComponent,
+    FoodStockComponent,
+    GroceryTripComponent,
+    FoodEditComponent
   ],
   imports: [
     BrowserModule,

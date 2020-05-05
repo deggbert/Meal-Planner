@@ -6,7 +6,7 @@ import { FoodDatabaseComponent } from './food-database/food-database.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/foodInpt', pathMatch: 'full' },
+  { path: '', redirectTo: '/foodInput', pathMatch: 'full' },
   { path: 'foodInput', component: FoodInputComponent },
   { path: 'foodDatabase', component: FoodDatabaseComponent },
 ];
