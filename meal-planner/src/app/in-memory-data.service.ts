@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
 import { Food } from './food-interface';
+import { User } from './user-interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,12 +31,18 @@ export class InMemoryDataService implements InMemoryDbService {
         proteinPerMeal: 25 
       },
     ];
+
+    const users = [];
     
-    return {foodList};
+    return {foodList, users};
   }
   
-  genId(foodList: Food[]): number {
-    return foodList.length > 0 ? Math.max(...foodList.map(food => food.id)) + 1 : 1;
+  genId<T extends Food | User>(dbArray: T[]): number {
+    return dbArray.length > 0 ? Math.max(...dbArray.map(t => t.id)) + 1 : 1;
   }
+  // genId(foodList: Food[]): number {
+  //   return foodList.length > 0 ? Math.max(...foodList.map(food => food.id)) + 1 : 1;
+  // }
+
   constructor() { }
 }

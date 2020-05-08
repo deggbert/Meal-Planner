@@ -19,14 +19,8 @@ export class FoodInputComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  submitFood(foodInputForm): void {
-    this.foodService.addFood(foodInputForm.value)
+  submitFood(): void {
+    this.foodService.addFood(this.food)
       .subscribe();
-    foodInputForm.reset();
   }
-  // submitFood(food: Food): void {
-  //   this.foodService.addFood(food)
-  //     .subscribe();
-  // }
-
 }

@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Food Input</h2>
-  <form #foodInputForm="ngForm" name="foodInputForm" (ngSubmit)="submitFood(foodInputForm)" autocomplete="off">
+  <form #foodInputForm="ngForm" name="foodInputForm" (ngSubmit)="submitFood(); foodInputForm.reset()" autocomplete="off">
     <!-- Or should I (ngSubmit)=submitFood(food); foodInputForm.reset()? -->
     <!-- TODO: allow user to press enter to move to next tab? -->
 
