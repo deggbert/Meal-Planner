@@ -11,7 +11,8 @@ export class UserInfoComponent implements OnInit {
   // TODO: Remove this when we're done
   get diagnostic() { return JSON.stringify(this.user); }
   
-  // TODO: maybe should have sex as part of user login?? so that the user input form can't be toggled
+  // TODO?: maybe should have sex as part of user login?? so that the user input form can't be toggled
+  // TODO?: maybe should have a component for male and famle and use ngSwitch to make the page appropriate for each sex
   user: User = {
     sex: "male",
     weight: 153.8,

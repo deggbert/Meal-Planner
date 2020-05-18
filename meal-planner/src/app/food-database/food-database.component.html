@@ -1,24 +1,9 @@
 <table>
   <tr>
-    <th>FOOD</th>
-    <th>BRAND</th>
-    <th>PRICE</th>
-    <th>CONTAINER SIZE</th>
-    <th>SERVING SIZE</th>
-    <th>FAT</th>
-    <th>CARB</th>
-    <th>PROTEIN</th>
-    <th>SERVINGS/ MEAL</th>
-    <th>GROCERY STORE ORDER</th>
-    <th>SERVINGS/ CONTAINER</th>
-    <th>SERVINGS/ MEAL</th>
-    <th>MEALS/ CONTAINER</th>
-    <th>PRICE/ MEAL</th>
-    <th>FAT/ MEAL</th>
-    <th>CARB/ MEAL</th>
-    <th>PROTEIN/ MEAL</th>
+    <th *ngFor="let header of headers">{{ header }}</th>
   </tr>
-  <tr *ngFor="let food of foodList">
+
+  <tr *ngFor="let food of foodList; trackBy: trackByFoods">
     <td *ngFor="let item of food | keyvalue: originalOrder">
       {{item.value}}
     </td>

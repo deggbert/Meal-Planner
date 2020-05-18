@@ -11,6 +11,26 @@ import { Food } from '../food-interface';
 })
 export class FoodDatabaseComponent implements OnInit {
   
+  headers: string[] = [
+    "ID",
+    "FOOD",
+    "BRAND",
+    "PRICE",
+    "CONTAINER SIZE",
+    "SERVING SIZE",
+    "FAT",
+    "CARB",
+    "PROTEIN",
+    "SERVINGS/ MEAL",
+    "GROCERY STORE ORDER",
+    "SERVINGS/ CONTAINER",
+    "SERVING SIZE/ MEAL",
+    "MEALS/ CONTAINER",
+    "PRICE/ MEAL",
+    "FAT/ MEAL",
+    "CARB/ MEAL",
+    "PROTEIN/ MEAL",
+  ]
   foodList: Food[] = [];
 
   constructor(
@@ -24,6 +44,11 @@ export class FoodDatabaseComponent implements OnInit {
   getFoodList(): void {
     this.foodService.getFoodList()
       .subscribe(foodList => this.foodList = foodList);
+  }
+
+  // TODO: doesn't work when leaving component and coming back, probably unnecessary
+  trackByFoods(index: number, food: Food): number { 
+    return food.id; 
   }
 
   originalOrder = (a, b): number => {

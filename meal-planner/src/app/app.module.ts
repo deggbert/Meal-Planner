@@ -16,6 +16,7 @@ import { MealPrepComponent } from './meal-prep/meal-prep.component';
 import { DailyMealPlanComponent } from './daily-meal-plan/daily-meal-plan.component';
 import { FoodStockComponent } from './food-stock/food-stock.component';
 import { GroceryTripComponent } from './grocery-trip/grocery-trip.component';
+import { FoodSearchComponent } from './food-search/food-search.component';
 import { FoodEditComponent } from './food-edit/food-edit.component';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { FoodEditComponent } from './food-edit/food-edit.component';
     DailyMealPlanComponent,
     FoodStockComponent,
     GroceryTripComponent,
+    FoodSearchComponent,
     FoodEditComponent
   ],
   imports: [

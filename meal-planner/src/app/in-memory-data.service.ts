@@ -10,6 +10,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const foodList = [
       { 
+        id: 1,
         name: 'THE',
         brand: 'TEST',
         price: 11,
@@ -23,12 +24,12 @@ export class InMemoryDataService implements InMemoryDbService {
         groceryStoreOrder: 18,
         // calculated values
         servingsPerContainer: 19,
-        totalServingsPerMeal: 20,
+        servingSizePerMeal: 20,
         mealsPerContainer: 21,
         pricePerMeal: 22,
         fatPerMeal: 23,
         carbPerMeal: 24,
-        proteinPerMeal: 25 
+        proteinPerMeal: 25,
       },
     ];
 

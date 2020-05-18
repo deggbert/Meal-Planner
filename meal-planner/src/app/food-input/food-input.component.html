@@ -1,58 +1,51 @@
+
 <div class="container">
   <h2>Food Input</h2>
-  <form #foodInputForm="ngForm" name="foodInputForm" (ngSubmit)="submitFood(); foodInputForm.reset()" autocomplete="off">
+  <form #foodInputForm="ngForm" name="foodInputForm" (ngSubmit)="submitFood()" autocomplete="off">
     <!-- Or should I (ngSubmit)=submitFood(food); foodInputForm.reset()? -->
     <!-- TODO: allow user to press enter to move to next tab? -->
-
+    
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" [(ngModel)]="food.name" required/>
-
+    <input type="text" id="name" name="name" [(ngModel)]="food.name" [readonly]="editFood" required/>
+    
     <label for="brand">Brand:</label>
-    <input type="text"  id="brand" name="brand" [(ngModel)]="food.brand" required/>
-
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" [(ngModel)]="food.price" required/>
-  
+    <input type="text"  id="brand" name="brand" [(ngModel)]="food.brand" [readonly]="editFood" required/>
+    
     <label for="containerSize">Container Size:</label>
     <input type="number" id="containerSize" name="containerSize"  [(ngModel)]="food.containerSize" required/>
-
+    
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" [(ngModel)]="food.price" required/>
+    
     <label for="servingSize">Serving Size:</label>
     <input type="number" id="servingSize" name="servingSize"  [(ngModel)]="food.servingSize" required/>
-
+    
     <label for="fat">Fat:</label>
     <input type="number" id="fat" name="fat"  [(ngModel)]="food.fat" required/>
-
+    
     <label for="carb">Carb:</label>
     <input type="number" id="carb" name="carb"  [(ngModel)]="food.carb" required/>
-
+    
     <label for="protein">Protein:</label>
     <input type="number" id="protein" name="protein"  [(ngModel)]="food.protein" required/>
+    
+    <ng-container *ngIf=!editFood>
+      <button type="reset" class="btn btn-reset">RESET</button>
+      <button type="submit" class="btn btn-submit" [disabled]="!foodInputForm.valid">SUBMIT</button>
+    </ng-container>
 
-    <button type="reset" class="btn btn-reset">Reset</button>
-    <button type="submit" class="btn btn-submit" [disabled]="!foodInputForm.valid">Submit</button>
-    <!-- why do they show !heroForm.form.valid? https://angular.io/guide/forms#create-the-hero-model-class -->
-
+    <ng-container *ngIf=editFood>
+      <button type="button" class="btn btn-delete" (click)="deleteFood()">DELETE</button>
+      <button *ngIf=editFood type="submit" class="btn btn-submit" [disabled]="!foodInputForm.valid">UPDATE</button>
+    </ng-container>
+    <!-- ?? why do they show !heroForm.form.valid? https://angular.io/guide/forms#create-the-hero-model-class -->
+    <!-- ?? where can you view heroForm variable to see .form or .valid -->
+    
     <div [hidden]="foodInputForm.valid" class="alert">
       All inputs are required!
     </div>
   </form>
+  {{food | json}}
 </div>
 
-<div>name: {{ food.name }}</div>
-<div>brand: {{ food.brand }}</div>
-<div>price: {{ food.price }}</div>
-<div>containerSize: {{ food.containerSize }}</div>
-<div>servingSize: {{ food.servingSize }}</div>
-<div>fat: {{ food.fat }}</div>
-<div>carb: {{ food.carb }}</div>
-<div>protein: {{ food.protein }}</div>
-<!-- <div>servingsPerMeal: {{ food.servingsPerMeal }}</div>
-<div>groceryStoreOrder: {{ food.groceryStoreOrder }}</div>
-<div>servingsPerContainer: {{ food.servingsPerContainer }}</div>
-<div>totalServingsPerMeal: {{ food.totalServingsPerMeal }}</div>
-<div>mealsPerContainer: {{ food.mealsPerContainer }}</div>
-<div>pricePerMeal: {{ food.pricePerMeal }}</div>
-<div>fatPerMeal: {{ food.fatPerMeal }}</div>
-<div>carbPerMeal: {{ food.carbPerMeal }}</div>
-<div>proteinPerMeal: {{ food.proteinPerMeal }}</div> -->
 

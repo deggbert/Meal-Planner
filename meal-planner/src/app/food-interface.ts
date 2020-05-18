@@ -3,8 +3,8 @@ export interface Food {
   id?:number,
   name?: string,
   brand?: string,
-  price?: number,
   containerSize?: number,
+  price?: number,
   servingSize?: number,
   fat?: number,
   carb?: number,
@@ -14,7 +14,7 @@ export interface Food {
   groceryStoreOrder?: number,
   // calculated values
   servingsPerContainer?: number,
-  totalServingsPerMeal?: number,
+  servingSizePerMeal?: number,
   mealsPerContainer?: number,
   pricePerMeal?: number,
   fatPerMeal?: number,

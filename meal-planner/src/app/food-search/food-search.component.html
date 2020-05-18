@@ -1,0 +1,15 @@
+<h3>Search</h3>
+{{terms | json}}
+<label for="searchName">Name:</label>
+<input type="text" id="searchName" name="searchName" [(ngModel)]="terms.name" value="" (input)="search()" autocomplete="off" />
+<!-- TODO: REMOVE: <input #searchName type="text" id="searchName" name="searchName" [(ngModel)]="terms.name" (input)="search({name: searchName.value, brand: searchBrand.value})" /> -->
+
+<label for="searchBrand">Brand:</label>
+<input type="text" id="searchBrand" name="searchBrand" [(ngModel)]="terms.brand" value="" (input)="search()" autocomplete="off" />
+<!-- TODO: REMOVE: <input #searchBrand type="text" id="searchBrand" name="searchBrand" [(ngModel)]="terms.brand" (input)="search({name: searchName.value, brand: searchBrand.value})" /> -->
+
+<ul>
+  <li #food *ngFor="let food of foodList$ | async" (click)="selectFood(food)">
+    {{food.name}}, {{food.brand}}
+  </li>
+</ul>
