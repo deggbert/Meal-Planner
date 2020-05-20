@@ -15,14 +15,13 @@ export class FoodDatabaseComponent implements OnInit {
     "ID",
     "FOOD",
     "BRAND",
-    "PRICE",
     "CONTAINER SIZE",
+    "PRICE",
     "SERVING SIZE",
     "FAT",
     "CARB",
     "PROTEIN",
     "SERVINGS/ MEAL",
-    "GROCERY STORE ORDER",
     "SERVINGS/ CONTAINER",
     "SERVING SIZE/ MEAL",
     "MEALS/ CONTAINER",
@@ -30,7 +29,9 @@ export class FoodDatabaseComponent implements OnInit {
     "FAT/ MEAL",
     "CARB/ MEAL",
     "PROTEIN/ MEAL",
+    "GROCERY STORE ORDER",
   ]
+  
   foodList: Food[] = [];
 
   constructor(

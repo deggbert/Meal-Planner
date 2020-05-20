@@ -1,5 +1,5 @@
 /* Global Form Styling */
-/* ?? weird styling in firefox: if input is outside of form then it color */
+/* ?? weird styling in firefox: if input is outside of form then it colors */
 form {
   display: grid;
   grid-template-columns: max-content 350px;

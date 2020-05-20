@@ -1,4 +1,9 @@
+li {
+  width: fit-content;
+}
+
 li:hover {
   cursor: pointer;
   background-color: #00ff00;
 }
+

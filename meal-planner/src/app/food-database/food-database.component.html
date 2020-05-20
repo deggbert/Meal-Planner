@@ -4,8 +4,8 @@
   </tr>
 
   <tr *ngFor="let food of foodList; trackBy: trackByFoods">
-    <td *ngFor="let item of food | keyvalue: originalOrder">
-      {{item.value}}
+    <td *ngFor="let prop of food | keyvalue: originalOrder">
+      {{ prop.value }}
     </td>
   </tr>
 </table>

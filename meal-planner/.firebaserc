@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "meal-planner-2c14a": {
+      "hosting": {
+        "meal-planner": [
+          "meal-planner-2c14a"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "meal-planner",
+      "public": "dist/meal-planner",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

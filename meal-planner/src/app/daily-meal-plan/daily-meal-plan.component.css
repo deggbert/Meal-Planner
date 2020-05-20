@@ -1,0 +1,27 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  text-align: center;
+  width: auto;
+  max-width: 75px;
+  font-size: 12px;
+}
+
+th[colspan="18"] {
+  background-color: grey;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  /* -moz-box-sizing: border-box; */
+  /* -webkit-box-sizing: border-box; */
+}
