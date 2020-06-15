@@ -5,57 +5,43 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, SETTINGS } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
-
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FoodDatabaseComponent } from './food-database/food-database.component';
-import { FoodInputComponent } from './food-input/food-input.component';
 import { MessagesComponent } from './messages/messages.component';
-import { UserInfoComponent } from './user-info/user-info.component';
-import { MealPrepComponent } from './meal-prep/meal-prep.component';
-import { DailyMealPlanComponent } from './daily-meal-plan/daily-meal-plan.component';
-import { FoodStockComponent } from './food-stock/food-stock.component';
-import { GroceryTripComponent } from './grocery-trip/grocery-trip.component';
-import { FoodSearchComponent } from './food-search/food-search.component';
-import { FoodEditComponent } from './food-edit/food-edit.component';
+import { CoreModule } from './core/core.module';
+import { LoginModule } from './modules/login/login.module';
+import { MealPlannerModule } from './modules/meal-planner/meal-planner.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FoodDatabaseComponent,
-    FoodInputComponent,
     MessagesComponent,
-    UserInfoComponent,
-    MealPrepComponent,
-    DailyMealPlanComponent,
-    FoodStockComponent,
-    GroceryTripComponent,
-    FoodSearchComponent,
-    FoodEditComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
-
+    
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+      
+    CoreModule,
+    LoginModule,
+    MealPlannerModule,
+    
+    AppRoutingModule,
+    ],
+    providers: [
+      //allows access to firestore emulator during local testing
+      { provide: SETTINGS, useValue: environment.production ? undefined: {
+      host: 'localhost:8080',
+      ssl: false,
+    }}
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

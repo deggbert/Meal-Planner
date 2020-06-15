@@ -1,4 +1,8 @@
 /* Global Form Styling */
+body {
+  margin: 0;
+  padding: 0;
+}
 /* ?? weird styling in firefox: if input is outside of form then it colors */
 form {
   display: grid;

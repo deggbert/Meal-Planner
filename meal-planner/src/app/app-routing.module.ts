@@ -1,30 +1,19 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FoodInputComponent } from './food-input/food-input.component';
-import { FoodDatabaseComponent } from './food-database/food-database.component';
-import { UserInfoComponent } from './user-info/user-info.component';
-import { DailyMealPlanComponent } from './daily-meal-plan/daily-meal-plan.component';
-import { MealPrepComponent } from './meal-prep/meal-prep.component';
-import { FoodStockComponent } from './food-stock/food-stock.component';
-import { GroceryTripComponent } from './grocery-trip/grocery-trip.component';
-import { FoodEditComponent } from './food-edit/food-edit.component';
+
+import { LoginComponent } from './modules/login/pages/login/login.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: 'userInfo', component: UserInfoComponent },
-  { path: 'dailyMealPlan', component: DailyMealPlanComponent },
-  { path: 'foodStock', component: FoodStockComponent },
-  { path: 'groceryTrip', component: GroceryTripComponent },
-  { path: 'mealPrep', component: MealPrepComponent },
-  { path: 'foodInput', component: FoodInputComponent },
-  { path: 'foodEdit', component: FoodEditComponent},
-  { path: 'foodDatabase', component: FoodDatabaseComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'meal-planner', loadChildren: () => import('./modules/meal-planner/meal-planner.module').then(m => m.MealPlannerModule) },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: LoginComponent } //TODO: change to 404 page not found page
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

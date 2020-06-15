@@ -1,0 +1,13 @@
+<h3>Search</h3>
+<label for="searchName">Name:</label>
+<input type="text" id="searchName" name="searchName" [(ngModel)]="terms.name" value="" (input)="search()" autocomplete="off" />
+
+<!-- TODO: add funcitonality to search by brand -->
+<!-- <label for="searchBrand">Brand:</label> -->
+<!-- <input type="text" id="searchBrand" name="searchBrand" [(ngModel)]="terms.brand" value="" (input)="search()" autocomplete="off" /> -->
+
+<ul>
+  <li #food *ngFor="let food of foodList$ | async" (click)="selectFood(food)">
+    {{ food.name }}, {{ food.brand }}, {{ food.containerSize }}
+  </li>
+</ul>

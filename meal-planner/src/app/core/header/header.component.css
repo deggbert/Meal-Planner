@@ -1,0 +1,37 @@
+:host {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: grey;
+}
+
+h1 { 
+  position: relative;
+  left: 5px;
+  margin-block-start: 10px;
+  margin-block-end: 10px;
+}
+
+a {
+  padding: 5px 10px;
+  display: inline-block;
+  background-color: #edeceb;
+  text-decoration: none;
+  margin: 0px 5px 10px;
+  
+}
+
+a:visited, a:link {
+  color: #334953;
+}
+
+a:hover {
+  color: #039be5;
+  background-color: #CFD8DC;
+  cursor: pointer;
+}
+
+a.active-link {
+  color: green;
+  background-color: #cfd500;
+}
