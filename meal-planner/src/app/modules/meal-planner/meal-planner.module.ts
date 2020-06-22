@@ -10,7 +10,6 @@ import { FoodDatabaseComponent } from './pages/food-database/food-database.compo
 import { DailyMealPlanComponent } from './pages/daily-meal-plan/daily-meal-plan.component';
 import { FoodStockComponent } from './pages/food-stock/food-stock.component';
 import { MealPrepComponent } from './pages/meal-prep/meal-prep.component';
-import { FoodEditComponent } from './components/food-edit/food-edit.component';
 import { FoodInputComponent } from './components/food-input/food-input.component';
 import { FoodSearchComponent } from './components/food-search/food-search.component';
 import { GroceryTripComponent } from './components/grocery-trip/grocery-trip.component';
@@ -26,7 +25,6 @@ import { FoodTableComponent } from './components/food-table/food-table.component
     FoodStockComponent,
     MealPrepComponent,
 
-    FoodEditComponent,
     FoodInputComponent,
     FoodSearchComponent,
     GroceryTripComponent,

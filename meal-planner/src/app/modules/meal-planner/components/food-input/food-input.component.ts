@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FoodService } from '../../../../core/services/food.service';
 
 import { Food } from '../../../../shared/interfaces/food.interface';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-food-input',
@@ -14,7 +14,7 @@ export class FoodInputComponent implements OnInit {
   @Input() isEdit: boolean;
   @Input() food: Food = null;
 
-  foodList$: BehaviorSubject<Food[]>;
+  foodList$: BehaviorSubject<Food[]>; //TODO: something is off here. should be subscribing to observable *****
   
   constructor(
     private foodService: FoodService,
@@ -53,7 +53,7 @@ export class FoodInputComponent implements OnInit {
         already exists. Would you like to add anyway?`)
       ) {
         return;
-      };
+      }
     }
   
     this.foodService.addFood(this.food);
@@ -68,6 +68,10 @@ export class FoodInputComponent implements OnInit {
   }
 
   deleteFood() {
+    if (!confirm('ARE YOU SURE YOU WANT TO DELETE?')) {
+      return;
+    }
+
     this.foodService.deleteFood(this.food);
 
     this.food = {};

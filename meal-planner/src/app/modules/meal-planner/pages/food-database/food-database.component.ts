@@ -10,6 +10,7 @@ import { Food } from 'src/app/shared/interfaces/food.interface';
 export class FoodDatabaseComponent implements OnInit {
   
   isEdit: boolean = false;
+  // ?? Can this be initialized as null using? possible to use optional chaining in input component
   food: Food = {};
 
   constructor() { }
@@ -27,7 +28,7 @@ export class FoodDatabaseComponent implements OnInit {
     }
   }
 
-  setFood(food: Food) {
+  setFood(food: Food): void {
     this.food = food;
   } 
 

@@ -1,0 +1,10 @@
+/* ?? Maybe there is a better way to do this */
+router-outlet + ::ng-deep * {
+  position: relative;
+  left: 10px;
+}
+
+.body {
+  position: relative;
+  left: 10px;
+}

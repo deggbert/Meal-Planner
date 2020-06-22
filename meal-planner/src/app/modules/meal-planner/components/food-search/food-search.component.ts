@@ -3,8 +3,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-import { Food } from '../../../../shared/interfaces/food.interface';
 import { FoodService } from '../../../../core/services/food.service';
+
+import { Food } from '../../../../shared/interfaces/food.interface';
 import { SearchTerms } from '../../../../shared/interfaces/search-terms.interface';
 
 
@@ -27,7 +28,7 @@ export class FoodSearchComponent implements OnInit {
 
   constructor(
     private foodService: FoodService,
-  ) {}
+  ) { }
 
   ngOnInit(): void { 
 

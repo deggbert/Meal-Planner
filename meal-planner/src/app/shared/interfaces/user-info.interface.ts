@@ -1,5 +1,4 @@
 export interface UserInfo {
-  id?:number,
   sex?: string;
   weight?: number;
   height?: number;

@@ -7,32 +7,28 @@ import { AuthService } from '../auth/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MessageService } from './message.service'; 
-import { Food } from '../../shared/interfaces/food.interface';
-import { SearchTerms } from '../../shared/interfaces/search-terms.interface';
 
-interface ActionQueues {
-  [key: string]: { 
-    chain: Promise<any>,
-    lastAction: 'add' | 'update' | 'delete';
-  }
-}
+import { Food } from '../../shared/interfaces/food.interface';
+import { ActionQueues } from 'src/app/shared/interfaces/action-queues.interface';
+import { SearchTerms } from '../../shared/interfaces/search-terms.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
+  
+public foodList$: BehaviorSubject<Food[]> = new BehaviorSubject<Food[]>([]);  // TODO: probably should be using valuechanges() or snapshotchanges()
+  private actionQueues: ActionQueues = {};
+
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private afStore: AngularFirestore,
     private messageService: MessageService,
   ) { }
-
-  public foodList$ = new BehaviorSubject<Food[]>([]);
-  private actionQueues: ActionQueues = {};
-
-  /** GET foodList from server */
+  
+  /** GET: get foodList from server */
   initializeFoodList(): Observable<void> {
-    return this.afStore.collection('foodList', ref => ref.where('uid', '==', this.auth.uid)).get().pipe(
+    return this.afStore.collection('foodList', ref => ref.where('uid', '==', this.authService.uid)).get().pipe(
       map(snapshot => {
         this.foodList$.next(snapshot.docs.map(doc => doc.data()));
       }),
@@ -51,7 +47,7 @@ export class FoodService {
       return of([]);
     }
   
-    return this.afStore.collection('foodList', ref => ref.where('uid', '==', this.auth.uid).where('nameSearchStrings', 'array-contains', terms.name)).get().pipe(
+    return this.afStore.collection('foodList', ref => ref.where('uid', '==', this.authService.uid).where('nameSearchStrings', 'array-contains', terms.name)).get().pipe(
       tap(snapshot => snapshot.size ?
         this.log(`found foods matching name=${terms.name}`) :
         this.log(`no foods found matching name=${terms.name}`)),
@@ -64,30 +60,30 @@ export class FoodService {
     
   /** SET: add a new food to foodList */
   async addFood(food: Food): Promise<void> {
-    if (this.actionQueues[food.id]) {
-      throw new Error("Can't add food more than once")
-    }
+    const autoId: string = this.afStore.collection('foodList').ref.doc().id; 
+    
+    food.docId = autoId;
 
     this.actionQueues[food.id] = { 
       chain: this._addFood(food),
       lastAction: 'add',
-    }
+    };
 
     return this.actionQueues[food.id].chain;
   }
   private async _addFood(food: Food): Promise<void> {
     try {
-      const autoId: string = this.afStore.collection('foodList').ref.doc().id; 
-      
-      food.docId = autoId;
-      food.uid = this.auth.uid;
+      // ?? should next 3 lines be in addFood()?
+      food.uid = this.authService.uid;
       
       food.nameSearchStrings = this.createSearchStrings(food, 'name');
       food.brandSearchStrings = this.createSearchStrings(food, 'brand');
       
-      await this.afStore.collection('foodList').doc(autoId).set(food);
+      this.log(`added food w/ name=${food.name} & brand=${food.brand}`); //TODO: add messages for local save and server save before and after awaits
+
+      await this.afStore.collection('foodList').doc(food.docId).set(food);
       
-      this.log(`added food w/ name=${food.name} & brand=${food.brand}`);
+      this.log(`SAVED food w/ name=${food.name} & brand=${food.brand}`);
       
       const newFoodList = [...this.foodList$.value, food];
       this.foodList$.next(newFoodList);
@@ -112,7 +108,7 @@ export class FoodService {
     this.actionQueues[food.id] = {
       chain: newChain,
       lastAction: 'update',
-    }
+    };
     
     return this.actionQueues[food.id].chain;
   }
@@ -130,7 +126,7 @@ export class FoodService {
     }
   }
 
-  /** DELETE: update a food in foodList */
+  /** DELETE: delete a food in foodList */
   async deleteFood(food: Food): Promise<void> {
     const actionQueue = this.actionQueues[food.id];
     
@@ -145,7 +141,7 @@ export class FoodService {
     this.actionQueues[food.id] = {
       chain: newChain,
       lastAction: 'delete',
-    }
+    };
     
     return this.actionQueues[food.id].chain;
   }

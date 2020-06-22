@@ -5,3 +5,5 @@
 
 <app-food-search *ngIf="isEdit" (selectFoodEvent)="setFood($event)"></app-food-search>
 <app-food-input *ngIf="!isEdit || (isEdit && !isEmptyObject(food))" [isEdit]="isEdit" [food]="food"></app-food-input>
+
+<app-food-table></app-food-table>

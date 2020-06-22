@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UserInfo } from '../../../../shared/interfaces/user-info.interface';
+import { UserInfoService } from 'src/app/core/services/user-info.service';
+
+import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
+import { ActionQueues } from 'src/app/shared/interfaces/action-queues.interface';
+
+import { UserInfoInit } from 'src/app/shared/models/user-info-init.model';
 
 @Component({
   selector: 'app-user-info',
@@ -8,19 +13,20 @@ import { UserInfo } from '../../../../shared/interfaces/user-info.interface';
   styleUrls: ['./user-info.component.css']
 })
 export class UserInfoComponent implements OnInit {
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.user); }
+  
+  isEdit: boolean;
+  userInfo: UserInfo = {};  //??TODO: use a resolver to get data before --- could solve problems
   
   // TODO?: maybe should have sex as part of user login?? so that the user input form can't be toggled
-  // TODO?: maybe should have a component for male and famle and use ngSwitch to make the page appropriate for each sex
-  user: UserInfo = {
-    sex: "male",
-    weight: 153.8,
-    height: 72,
-    age: 26,
-    neckCircum: 13.5,
-    waistCircum: 31.5,
-  };
+  // TODO?: maybe should have a component for male and female and use ngSwitch to make the page appropriate for each sex
+  // userInfo: UserInfo = {
+  //   sex: "male",
+  //   weight: 153.8,
+  //   height: 72,
+  //   age: 26,
+  //   neckCircum: 13.5,
+  //   waistCircum: 31.5,
+  // };
 
   activityLevels: [string, string][] = [
     ["Sedentary (little or no excerise)", "1.2"],
@@ -30,45 +36,66 @@ export class UserInfoComponent implements OnInit {
     ["Extreme (60 mins 2x/day)", "1.9"]
   ]
 
-  constructor() { }
+  constructor(
+    private userInfoService: UserInfoService,
+  ) { }
 
   ngOnInit(): void {
+    this.getUserInfo();
+  }
+
+  getUserInfo(): void {
+    this.userInfoService.initializeUserInfo().subscribe((userInfo) => {
+      this.userInfo = userInfo;
+    });  
+  }
+
+  updateUserInfo(): void {
+    this.userInfoService.updateUserInfo(this.userInfo);
+  }
+
+  toggleEdit(): void {
+    this.isEdit = !this.isEdit;
   }
 
   // Mifflin - St Jeor: equation for Basal Metabolic Rate
   calcBmr(): void { // ?? doesn't error if values are not a string - b/c value set to null
-    if (this.user.sex && this.user.weight && this.user.height && this.user.age) {  // ?? is it better to use ! and ||
-      if (this.user.sex == "male" ) {
-        this.user.bmr = Math.round((4.536 * this.user.weight) + (15.88 * this.user.height) - (5 * this.user.age) + 5);
+    if (this.userInfo?.sex && this.userInfo.weight && this.userInfo.height && this.userInfo.age) {  // ?? is it better to use ! and ||
+      if (this.userInfo?.sex === "male" ) {
+        this.userInfo.bmr = Math.round((4.536 * this.userInfo.weight) + (15.88 * this.userInfo.height) - (5 * this.userInfo.age) + 5);
       } else {
-        this.user.bmr = Math.round((4.536 * this.user.weight) + (15.88 * this.user.height) - (5 * this.user.age) - 161);
+        this.userInfo.bmr = Math.round((4.536 * this.userInfo.weight) + (15.88 * this.userInfo.height) - (5 * this.userInfo.age) - 161);
       }
     }
   }
 
   calcDailyCaloricNeed(): void {
-    if (this.user.bmr && this.user.activityLevel) {
-      this.user.dailyCaloricNeed = this.user.bmr * this.user.activityLevel;
+    if (this.userInfo.bmr && this.userInfo.activityLevel) {
+      this.userInfo.dailyCaloricNeed = this.userInfo.bmr * this.userInfo.activityLevel;
     }
   }
 
   // u.S. Navy Method: equation for Body Fat Percent
   calcBodyFatPerc(): void {
-    if (this.user.sex === 'male') {
-      if (this.user.neckCircum && this.user.waistCircum) {
-        this.user.bodyFatPerc = +(86.010 * Math.log10(this.user.waistCircum - this.user.neckCircum) - 70.041 * Math.log10(this.user.height) + 36.76).toFixed(1);
+    if (this.userInfo?.sex === 'male') {
+      if (this.userInfo.neckCircum && this.userInfo.waistCircum) {
+        this.userInfo.bodyFatPerc = +(86.010 * Math.log10(this.userInfo.waistCircum - this.userInfo.neckCircum) - 70.041 * Math.log10(this.userInfo.height) + 36.76).toFixed(1);
         this.calcLeanMass();
       }
     } else {
-      if (this.user.height && this.user.neckCircum && this.user.waistCircum && this.user.hipCircum) {
-        this.user.bodyFatPerc = +(163.205 * Math.log10(this.user.waistCircum + this.user.hipCircum - this.user.neckCircum) - 97.684 * Math.log10(this.user.height) - 78.387).toFixed(1);
+      if (this.userInfo.height && this.userInfo.neckCircum && this.userInfo.waistCircum && this.userInfo.hipCircum) {
+        this.userInfo.bodyFatPerc = +(163.205 * Math.log10(this.userInfo.waistCircum + this.userInfo.hipCircum - this.userInfo.neckCircum) - 97.684 * Math.log10(this.userInfo.height) - 78.387).toFixed(1);
         this.calcLeanMass();
       }
     }
   }
 
   calcLeanMass(): void {
-    this.user.leanMass = +(this.user.weight - (this.user.weight * this.user.bodyFatPerc / 100)).toFixed(1);
+    this.userInfo.leanMass = +(this.userInfo.weight - (this.userInfo.weight * this.userInfo.bodyFatPerc / 100)).toFixed(1);
+  }
+
+  isEmptyObject(obj: any): any {
+    return (Object.keys(obj).length === 0);
   }
 
 }

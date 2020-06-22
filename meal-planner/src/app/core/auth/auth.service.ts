@@ -36,6 +36,7 @@ export class AuthService {
       })
     );
   }
+  
 
   async googleSignIn() {
     const provider = new auth.GoogleAuthProvider();

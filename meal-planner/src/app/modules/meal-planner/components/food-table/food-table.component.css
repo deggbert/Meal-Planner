@@ -1,0 +1,52 @@
+#wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+
+table {
+  box-sizing: border-box;
+  border-collapse: separate ;
+  display: block;
+  border-spacing: 0;
+  width: fit-content;
+  table-layout: fixed;
+  height: 221px;
+  overflow-y: auto;
+}
+
+th, td {
+  text-align: center;
+  width: auto;
+  height: 19px;
+  /* max-width: 75px; */
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: grey;
+}
+
+/* BORDERS */
+th {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+td {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+th:first-child, td:first-child {
+  border-left: 1px solid black;
+}
+
+
+
+
+
