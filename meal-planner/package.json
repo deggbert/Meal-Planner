@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "t": "concurrently -n \"emulators,ngbuild\" \"firebase emulators:start --import dbInit\" \"ng build --watch\""
+    "t": "concurrently -n \"emulators,ngbuild\" \"firebase emulators:start --import dbInit\" \"ng build --watch\"",
+    "b": "ng build --watch",
+    "e": "firebase emulators:start --import dbInit"
   },
   "private": true,
   "dependencies": {

@@ -1,7 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -22,8 +20,6 @@ import { MealPlannerModule } from './modules/meal-planner/meal-planner.module';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpClientModule,
     
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -34,13 +30,15 @@ import { MealPlannerModule } from './modules/meal-planner/meal-planner.module';
     MealPlannerModule,
     
     AppRoutingModule,
-    ],
-    providers: [
-      //allows access to firestore emulator during local testing
-      { provide: SETTINGS, useValue: environment.production ? undefined: {
-      host: 'localhost:8080',
-      ssl: false,
-    }}
+  ],
+  providers: [
+    //allows access to firestore emulator during local testing
+    { 
+      provide: SETTINGS, useValue: environment.production ? undefined: {
+        host: 'localhost:8080',
+        ssl: false,
+      } 
+    }
   ],
   bootstrap: [AppComponent]
 })

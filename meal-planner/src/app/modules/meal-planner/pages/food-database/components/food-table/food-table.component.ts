@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Observable } from 'rxjs'
 
 import { FoodService } from 'src/app/core/services/food.service';
 
@@ -12,6 +11,9 @@ import { Food } from 'src/app/shared/interfaces/food.interface';
   styleUrls: ['./food-table.component.css']
 })
 export class FoodTableComponent implements OnInit {
+  @Input() foodList: Food[];
+
+  @Output() selectFoodEvent = new EventEmitter<Food>();
   
   headers: string[] = [
     "FOOD",
@@ -33,15 +35,12 @@ export class FoodTableComponent implements OnInit {
     // "GROCERY STORE ORDER",
   ]
   
-  foodList$: Observable<Food[]>;
 
   constructor(
     private foodService: FoodService,
   ) { }
 
-  ngOnInit(): void {
-    this.foodList$ = this.foodService.foodList$;
-  }
+  ngOnInit(): void { }
 
   getTableValues(food: Food) {
     let values: (string | number)[] = [];
@@ -52,14 +51,17 @@ export class FoodTableComponent implements OnInit {
     return values;
   }
 
-  // TODO: doesn't work when leaving component and coming back, probably unnecessary
-  trackByFoods(index: number, food: Food): number { 
-    return food.id; 
+  selectFood(food: Food): void {
+    this.selectFoodEvent.emit(food);
   }
 
-  // TODO: used to keep fields in order **let prop of food | keyvalue: originalOrder**
+  // ?? doesn't work when foodList array is an input property (ng change detection probably to blame)
+  // trackByFood(index: number, food: Food): string { 
+  //   return food.docId; 
+  // }
+
+  // ?? used to keep fields in order **let prop of food | keyvalue: originalOrder**
   // originalOrder = (a, b): number => {
   //   return 0;
   // }
-
 }

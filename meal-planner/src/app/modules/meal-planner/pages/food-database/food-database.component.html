@@ -1,9 +1,0 @@
-<h2>Food Database</h2>
-
-<button type="button" (click)="modeSelect('add')">Add Food</button>
-<button type="button" (click)="modeSelect('edit')">Edit Food</button>
-
-<app-food-search *ngIf="isEdit" (selectFoodEvent)="setFood($event)"></app-food-search>
-<app-food-input *ngIf="!isEdit || (isEdit && !isEmptyObject(food))" [isEdit]="isEdit" [food]="food"></app-food-input>
-
-<app-food-table></app-food-table>

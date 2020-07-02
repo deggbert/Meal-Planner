@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { FoodService } from '../../../../core/services/food.service';
 
 import { Food } from '../../../../shared/interfaces/food.interface';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-food-input',
@@ -12,40 +11,27 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class FoodInputComponent implements OnInit {
   @Input() isEdit: boolean;
-  @Input() food: Food = null;
+  @Input() foodList: Food[];
+  @Input() food: Food;
 
-  foodList$: BehaviorSubject<Food[]>; //TODO: something is off here. should be subscribing to observable *****
+  @Output() updateOrDeleteEvent = new EventEmitter();
+  
   
   constructor(
     private foodService: FoodService,
-  ) { 
-    this.foodList$ = this.foodService.foodList$;
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.getFoodList();
-  }
-  
-  getFoodList(): void {
-    this.foodService.initializeFoodList().subscribe();
-  }
-  
-  submitFood(): void {
-    if (!this.isEdit) {
-      this.addFood();
-    } else {
-      this.updateFood();
-    }
   }
   
   addFood() {
-    
-    if( this.foodList$.value.some(
-        food => food.name == this.food.name &&
-        food.brand === this.food.brand &&
-        food.containerSize === this.food.containerSize) 
+    if (this.foodList.some(food =>
+      food.name === this.food.name &&
+      food.brand === this.food.brand &&
+      food.containerSize === this.food.containerSize
+      )
     ) {
-      if( !confirm(
+      if (!confirm(
         `Food with 
           name=${this.food.name} & 
           brand=${this.food.brand} & 
@@ -57,24 +43,24 @@ export class FoodInputComponent implements OnInit {
     }
   
     this.foodService.addFood(this.food);
-
+    
     this.food = {};
   }
   
   updateFood() {
     this.foodService.updateFood(this.food);
-
     this.food = {};
+    this.updateOrDeleteEvent.emit();
   }
 
   deleteFood() {
     if (!confirm('ARE YOU SURE YOU WANT TO DELETE?')) {
       return;
     }
-
+    
     this.foodService.deleteFood(this.food);
-
     this.food = {};
+    this.updateOrDeleteEvent.emit();
   }
 
 }

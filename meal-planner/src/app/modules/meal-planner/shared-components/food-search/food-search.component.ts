@@ -15,40 +15,40 @@ import { SearchTerms } from '../../../../shared/interfaces/search-terms.interfac
   styleUrls: ['./food-search.component.css']
 })
 export class FoodSearchComponent implements OnInit {
-  @Output() selectFoodEvent = new EventEmitter<Food>()
-
-  foodList$: Observable<Food[]>;
+  @Output() selectFoodEvent = new EventEmitter<Food>();
+  
+  searchList$: Observable<Food[]>;
   // ?? Doesn't work if name and brand aren't initialized ==> becuase terms.brand = undefined when foodservice tries to search
   terms: SearchTerms = {
     name: '', 
     brand: '',
   };
   
-  private searchTerms = new Subject<SearchTerms> ();
+  private searchTerms$ = new Subject<SearchTerms> ();
 
   constructor(
     private foodService: FoodService,
   ) { }
 
   ngOnInit(): void { 
-
-    this.foodList$ = this.searchTerms.pipe(
+    this.searchList$ = this.searchTerms$.pipe(
       debounceTime(300),
       distinctUntilChanged((a,b) => a.name === b.name && a.brand === b.brand), 
       switchMap((terms: SearchTerms) => this.foodService.searchFoodList(terms)),
     );
-
   }
 
   search(): void {
     // ?? const vs let
     let cloneTerms = {...this.terms };
-    this.searchTerms.next(cloneTerms);
-    
-    // this.searchTerms.next({name: "the", brand: "" })
-    // setTimeout( () => this.searchTerms.next({name: "the", brand: "" }), 2500);
-    // setTimeout( () => this.searchTerms.next({name: "th", brand: "" }), 5000);
+    this.searchTerms$.next(cloneTerms);
   }
+
+  updateSearch(): void {
+    let cloneTerms = {...this.terms };
+    this.searchList$ = this.foodService.searchFoodList(cloneTerms);
+  }
+  
 
   selectFood(food: Food): void {
     this.selectFoodEvent.emit(food);

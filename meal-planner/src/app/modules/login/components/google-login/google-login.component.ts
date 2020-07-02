@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 export class GoogleLoginComponent implements OnInit {
 
   constructor(
-    public auth: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

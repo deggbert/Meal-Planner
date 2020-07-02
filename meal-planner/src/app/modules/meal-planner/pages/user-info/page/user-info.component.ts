@@ -1,11 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { tap } from 'rxjs/operators';
 
 import { UserInfoService } from 'src/app/core/services/user-info.service';
 
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
-import { ActionQueues } from 'src/app/shared/interfaces/action-queues.interface';
 
-import { UserInfoInit } from 'src/app/shared/models/user-info-init.model';
+// ?? Is this useful for table?
+// ?? TODO: using to get values from object ... maybe enum with fields (i.e. activity level) and numbers and then grab values from array at index
+enum UserInfoHeaders {
+  'Sex:' = 'sex',
+  'Weight (lbs):' = 'weight',
+  'Height (inches):' = 'height',
+  'Age (years):' = 'age',
+  'BMR:' = 'bmr',
+  'Activity Level:' = 'activityLevel',
+  'Daily Caloric Need:' = 'dailyCaloricNeed',
+  'Neck Circumference (inches):' = 'neckCircum',
+  'Waist Circumference (inches):' = 'waistCircum',
+  'Hip Circumference (inches):' = 'hipCircum',
+  'Body Fat Percent (%):' = 'bodyFatPerc',
+  'Lean Mass (lbs):' = 'leanMass',
+}
 
 @Component({
   selector: 'app-user-info',
@@ -14,19 +31,28 @@ import { UserInfoInit } from 'src/app/shared/models/user-info-init.model';
 })
 export class UserInfoComponent implements OnInit {
   
-  isEdit: boolean;
-  userInfo: UserInfo = {};  //??TODO: use a resolver to get data before --- could solve problems
+  isEdit: boolean = false;
+  isUpdated: boolean = false;
+  userInfo: UserInfo = {}; //??TODO: use a resolver to get data before ---> resolver doesn't work with angularfiredocument = need to find alt solution
+  tempUserInfo: UserInfo;
   
-  // TODO?: maybe should have sex as part of user login?? so that the user input form can't be toggled
+  headers: string[] = [
+    'Sex:',
+    'Weight (lbs):',
+    'Height (inches):',
+    'Age (years):',
+    'BMR:',
+    'Activity Level:',
+    'Daily Caloric Need:',
+    'Neck Circumference (inches):',
+    'Waist Circumference (inches):',
+    'Hip Circumference (inches):',
+    'Body Fat Percent (%):',
+    'Lean Mass (lbs):',
+  ]
+
+  // TODO?: maybe should have sex as part of user login?? so that the user input form can't be toggled ***** NEED TO DO THIS  
   // TODO?: maybe should have a component for male and female and use ngSwitch to make the page appropriate for each sex
-  // userInfo: UserInfo = {
-  //   sex: "male",
-  //   weight: 153.8,
-  //   height: 72,
-  //   age: 26,
-  //   neckCircum: 13.5,
-  //   waistCircum: 31.5,
-  // };
 
   activityLevels: [string, string][] = [
     ["Sedentary (little or no excerise)", "1.2"],
@@ -37,25 +63,37 @@ export class UserInfoComponent implements OnInit {
   ]
 
   constructor(
+    private route: ActivatedRoute,
     private userInfoService: UserInfoService,
-  ) { }
+  ) {
+    this.route.data.subscribe((data) => {
+      this.userInfo = data.userInfo;
+    });
+   }
 
-  ngOnInit(): void {
-    this.getUserInfo();
-  }
+  ngOnInit(): void { }
 
-  getUserInfo(): void {
-    this.userInfoService.initializeUserInfo().subscribe((userInfo) => {
-      this.userInfo = userInfo;
-    });  
-  }
 
   updateUserInfo(): void {
     this.userInfoService.updateUserInfo(this.userInfo);
+    this.isEdit = false;
+    this.isUpdated = true;
   }
 
   toggleEdit(): void {
     this.isEdit = !this.isEdit;
+    if (this.isEdit) {
+      this.tempUserInfo = Object.assign({}, this.userInfo);
+    }
+    if (!this.isEdit) {
+      this.isUpdated = false;
+    }
+    if (!this.isEdit && !this.isUpdated) {
+      this.userInfo = this.tempUserInfo;
+    }
+    if (this.userInfo.sex === 'male') {
+      this.userInfo.hipCircum = null;
+    }
   }
 
   // Mifflin - St Jeor: equation for Basal Metabolic Rate
@@ -97,5 +135,23 @@ export class UserInfoComponent implements OnInit {
   isEmptyObject(obj: any): any {
     return (Object.keys(obj).length === 0);
   }
-
+  
+  originalOrder = (a, b): number => {
+    return 0;
+  }
+  
+  getObjectValues(userInfo: UserInfo) {
+    let values: (string | number)[] = [];
+    for (let header of this.headers) {
+      let value = userInfo[UserInfoHeaders[header]];
+      if (typeof value === 'string') {
+        value = value[0].toUpperCase() + value.slice(1);
+      }
+      if (!value) {
+        value = 'N/A';
+      }
+      values.push(value);
+    }
+    return values;
+  }
 }

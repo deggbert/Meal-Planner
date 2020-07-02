@@ -7,7 +7,7 @@
 <!-- <input type="text" id="searchBrand" name="searchBrand" [(ngModel)]="terms.brand" value="" (input)="search()" autocomplete="off" /> -->
 
 <ul>
-  <li #food *ngFor="let food of foodList$ | async" (click)="selectFood(food)">
+  <li *ngFor="let food of searchList$ | async" (click)="selectFood(food)">
     {{ food.name }}, {{ food.brand }}, {{ food.containerSize }}
   </li>
 </ul>

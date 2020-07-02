@@ -26,5 +26,4 @@ export interface Food {
   // search strings
   nameSearchStrings?: string[];
   brandSearchStrings?: string[];
-  id?: number;
 }

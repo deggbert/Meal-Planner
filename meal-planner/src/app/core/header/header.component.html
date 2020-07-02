@@ -9,4 +9,9 @@
   <a routerLink="/login" routerLinkActive="active-link">Login</a>
 </nav>
 
+<div *ngIf="authService.user$ | async as user" class="user">
+  Logged in as: <span>{{ user.displayName }}</span>
+  <button type="button" (click)="authService.signOut()">Sign Out</button>
+</div>
+
 

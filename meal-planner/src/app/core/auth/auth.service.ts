@@ -18,15 +18,17 @@ export class AuthService {
 
   user$: Observable<User>;
   uid: string = null;
+  displayName: string = null;
 
   constructor(
-    private afAuth: AngularFireAuth, //firebase.auth.Auth
-    private afStore: AngularFirestore,  //firebase.firestore
+    private afAuth: AngularFireAuth, 
+    private afStore: AngularFirestore,  
     private router: Router,
   ) { 
     // ??TODO: could just use afAuth.authState to get the user id from the firebase authenticaiton tab if i don't want this custom data
     this.user$ = this.afAuth.authState.pipe(
-      tap((user) => this.uid = user?.uid ?? null),
+      tap(user => this.uid = user?.uid ?? null),
+      tap(user => this.displayName = user?.displayName ?? null),
       switchMap(user => {
         if (user) {
           return this.afStore.doc<User>(`users/${user.uid}`).valueChanges();
@@ -54,13 +56,23 @@ export class AuthService {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afStore.doc(`users/${uid}`);
 
-    const data = {
+    const userData: User = {
       uid,
       email,
       displayName,
       photoURL,
     }
 
-    return userRef.set(data, { merge: true });
+    return userRef.set(userData, { merge: true });
+  }
+
+  // Create test users TODO: Remove when no longer needed
+  async testUserSignIn(number: number): Promise<void> {
+    const testUserData = {
+      email: `testUser${number}@email.test`,
+      password: `testUser${number}`,
+    }
+    
+    this.afAuth.signInWithEmailAndPassword(testUserData.email, testUserData.password);
   }
 }

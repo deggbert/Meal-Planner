@@ -1,3 +1,8 @@
+tr:hover {
+  cursor: pointer;
+}
+
+/* Table Styles */
 #wrapper {
   width: fit-content;
   height: fit-content;
@@ -10,7 +15,7 @@ table {
   border-spacing: 0;
   width: fit-content;
   table-layout: fixed;
-  height: 221px;
+  max-height: 221px;
   overflow-y: auto;
 }
 

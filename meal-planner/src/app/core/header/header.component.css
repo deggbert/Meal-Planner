@@ -15,6 +15,10 @@ h1 {
   margin-block-end: 10px;
 }
 
+nav {
+  float: left;
+}
+
 a {
   padding: 5px 10px;
   display: inline-block;
@@ -37,4 +41,19 @@ a:hover {
 a.active-link {
   color: green;
   background-color: #cfd500;
+}
+
+.user {
+  float: right;
+  padding-right: 5px;
+  color: blue;
+}
+
+span {
+  color: rgb(212, 171, 116);
+  font-weight: bold;
+}
+
+button {
+  margin-left: 5px;
 }

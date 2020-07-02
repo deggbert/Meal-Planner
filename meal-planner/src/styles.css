@@ -2,12 +2,18 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 /* ?? weird styling in firefox: if input is outside of form then it colors */
+.container {
+  width: fit-content;
+}
+
 form {
   display: grid;
   grid-template-columns: max-content 350px;
   grid-gap: 5px;
+  padding: 5px;
 }
 
 form label {
@@ -21,6 +27,18 @@ form label {
 form input {
   grid-column: 2 / 3;
   text-align: center;
+  padding: 0;
+}
+/* REMOVE arrows on input type="number" */
+/* Chrome, Safari, Edge, Opera */
+form input::-webkit-outer-spin-button,
+form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+form input[type=number] {
+  -moz-appearance: textfield;
 }
 
 form select {
@@ -54,21 +72,38 @@ form .alert {
   text-align: center;
 }
 
-.ng-valid {
-  border-left: 5px solid green;
+form.ng-valid {
+  border: 5px solid green;
+}
+form.ng-invalid {
+  border: 5px solid red;
 }
 
-.ng-invalid {
-  border-left: 5px solid red;
+form input.ng-valid {
+  border: 2px solid green;
+}
+form input.ng-invalid {
+  border: 2px solid red;
 }
 
-input[type="radio"]:invalid {
+form input[type="radio"]:invalid {
   box-shadow:0 0 3px red;
 }
 /* .ng-invalid[type="radio"] {
   box-shadow:0 0 3px red;
 }  DOES THE SAME THING*/
 
-input[readonly] {
+form input[readonly] {
   background-color:#d2d2d2;
+}
+
+input {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+}
+
+input:disabled {
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
 }
