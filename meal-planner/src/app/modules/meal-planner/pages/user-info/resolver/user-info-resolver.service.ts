@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
+import { Router, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { Observable, from } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { UserInfoService } from 'src/app/core/services/user-info.service';
 
@@ -17,7 +16,6 @@ export class UserInfoResolverService implements Resolve<UserInfo> {
     private userInfoService: UserInfoService,
     private router: Router,
   ) { }
-  
   
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInfo> {
     return this.userInfoService.getUserInfo();

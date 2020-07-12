@@ -26,7 +26,7 @@ export class FoodDatabaseComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.foodListSub = this.foodService.getFoodList().subscribe(foodList => {
+    this.foodListSub = this.foodService.getFoodListObservable().subscribe(foodList => {
       foodList.sort((a, b) => {
         if (a.name.match(/\D+/g)[0] === a.name.match(/\D+/g)[0]) {
           return +a.name.match(/\d+/) - +b.name.match(/\d+/)

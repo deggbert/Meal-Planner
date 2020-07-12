@@ -1,0 +1,75 @@
+<h2>Daily Meal Plan</h2>
+
+<h3>Daily Macro Nutrients</h3>
+<app-daily-macros [userInfo]="this.userInfo"></app-daily-macros>
+
+<h3>Food Search</h3>
+<app-food-search (selectFoodEvent)="this.selectedFood=$event"></app-food-search>
+
+<ng-container *ngIf="isEmptyObject(selectedFood)">Selcted Food: None</ng-container> 
+<ng-container *ngIf="!isEmptyObject(selectedFood)">Selcted Food: {{ selectedFood.name }}, {{ selectedFood.brand }}, {{ selectedFood.containerSize}} </ng-container> 
+
+<button (click)="addToBreakfast()" [disabled]="isEmptyObject(selectedFood)">Add to Breakfast</button>
+<button (click)="addToLunch()" [disabled]="isEmptyObject(selectedFood)">Add to Lunch</button>
+<button (click)="addToDinner()" [disabled]="isEmptyObject(selectedFood)">Add to Dinner</button>
+
+<button (click)="updateDailyMealPlan()">Update</button>
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let header of headers">{{ header }}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <th colspan="17">BREAKFAST</th>
+    <tr *ngFor="let food of breakfast">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food)">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+        <td>
+          <input type="number" [(ngModel)]="food.groceryStoreOrder">
+        </td>
+      </ng-container>
+      <td>
+        <button type="button" (click)="removeFood(food, 'breakfast')">X</button>
+      </td>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <th colspan="17">LUNCH</th>
+    <tr *ngFor="let food of lunch">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food)">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+        <td>
+          <input type="number" [(ngModel)]="food.groceryStoreOrder">
+        </td>
+      </ng-container>
+    </tr>
+  </tbody>
+
+  <tbody>
+    <th colspan="17">DINNER</th>
+    <tr *ngFor="let food of dinner">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food)">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+        <td>
+          <input type="number" [(ngModel)]="food.groceryStoreOrder">
+        </td>
+      </ng-container>
+    </tr>
+  </tbody> 
+</table>

@@ -4,7 +4,6 @@ import { MealPlannerRoutingModule } from './meal-planner-routing.module';
 import { SharedModule } from './shared-module/shared.module';
 
 import { HomeComponent } from './pages/home/home.component';
-import { DailyMealPlanComponent } from './pages/daily-meal-plan/daily-meal-plan.component';
 import { FoodStockComponent } from './pages/food-stock/food-stock.component';
 import { MealPrepComponent } from './pages/meal-prep/meal-prep.component';
 
@@ -13,7 +12,6 @@ import { GroceryTripComponent } from './shared-components/grocery-trip/grocery-t
 @NgModule({
   declarations: [ 
     HomeComponent,
-    DailyMealPlanComponent,
     FoodStockComponent,
     MealPrepComponent,
 

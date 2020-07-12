@@ -17,7 +17,7 @@ import { SearchTerms } from '../../shared/interfaces/search-terms.interface';
 })
 export class FoodService {
   
-  private foodList$: Observable<Food[]> = null;
+  private foodList$: Observable<Food[]> = null;  
   private actionQueues: ActionQueues = {};
 
   constructor(
@@ -33,7 +33,7 @@ export class FoodService {
   }
   
   /** GET: get user's foodList from firestore server */
-  getFoodList(): Observable<Food[]> {
+  getFoodListObservable(): Observable<Food[]> {
     if (!this.foodList$) {
       this.foodList$ = this.afStore.collection<Food>('foodList', ref => ref.where('uid', '==', this.authService.uid)).valueChanges().pipe(
         tap(_ => this.log('fetched foodList')),

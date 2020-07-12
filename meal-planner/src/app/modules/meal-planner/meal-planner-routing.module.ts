@@ -3,9 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { UserInfoResolverService } from './pages/user-info/resolver/user-info-resolver.service';
+import { DailyMealPlanResolverService } from './pages/daily-meal-plan/resolvers/daily-meal-plan-resolver.service';
+import { FoodListResolverService } from './pages/daily-meal-plan/resolvers/food-list-resolver.service';
 
 import { HomeComponent } from './pages/home/home.component';
-import { DailyMealPlanComponent } from './pages/daily-meal-plan/daily-meal-plan.component';
 import { FoodStockComponent } from './pages/food-stock/food-stock.component';
 import { MealPrepComponent } from './pages/meal-prep/meal-prep.component';
 
@@ -32,8 +33,13 @@ const routes: Routes = [
   },
   { 
     path: 'daily-meal-plan', 
-    component: DailyMealPlanComponent, 
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/daily-meal-plan/daily-meal-plan.module').then(m => m.DailyMealPlanModule) ,
+    canActivate: [AuthGuard],
+    resolve: {
+      dailyMealPlan: DailyMealPlanResolverService,
+      foodList: FoodListResolverService,
+      userInfo: UserInfoResolverService,
+    }
   },
   { 
     path: 'food-stock', 

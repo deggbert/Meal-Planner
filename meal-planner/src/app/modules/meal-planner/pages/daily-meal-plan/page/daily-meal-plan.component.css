@@ -1,6 +1,10 @@
+button {
+  margin: 5px;
+}
+
 table {
   border-collapse: collapse;
-  width: 100%;
+  /* width: 98.5%; */
   table-layout: fixed;
 }
 
@@ -10,12 +14,13 @@ table, th, td {
 
 th, td {
   text-align: center;
-  width: auto;
+  width: fit-content;
   max-width: 75px;
+  /* width: 50px; */
   font-size: 12px;
 }
 
-th[colspan="18"] {
+th[colspan="17"] {
   background-color: grey;
 }
 

@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="table1">
+    <table>
+      <thead>
+        <tr>
+          <td>Daily Caloric Need</td>
+          <td>Calories to Cut</td>
+          <td>Daily Calories</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> {{ userInfo.dailyCaloricNeed }}</td>
+          <td>
+            <input type="number" [(ngModel)]="cutCalories" (input)=calcDailyCalories()> 
+          </td>
+          <td> {{ dailyCalories }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table2">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let header of headers"> 
+            {{ header }} 
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let macro of macroNutrients">
+          <th scope="row"> {{ macro.nutrient | uppercase }}</th>
+          <td> {{macro.recommended }} </td>
+          <td *ngIf="macro.nutrient !== 'carb'; else emptyCell"> 
+            <input type="number" [(ngModel)]="macro.chosen" (input)="calcMacroValues(macro)">
+          </td>
+          <td> {{ macro.grams }} </td>
+          <td> {{ macro.calories }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #emptyCell>
+  <td>
+    N/A
+  </td>
+</ng-template>

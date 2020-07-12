@@ -3,14 +3,14 @@ tr:hover {
 }
 
 /* Table Styles */
-#wrapper {
+.container {
   width: fit-content;
   height: fit-content;
 }
 
 table {
   box-sizing: border-box;
-  border-collapse: separate ;
+  border-collapse: separate;
   display: block;
   border-spacing: 0;
   width: fit-content;

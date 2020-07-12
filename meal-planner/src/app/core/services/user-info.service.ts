@@ -32,10 +32,10 @@ export class UserInfoService {
         if (!userInfo.exists) {
           return this.initializeUserInfo();
         } else {
-          return userInfo.data();
+          return userInfo.data() as UserInfo;
         }
       }),
-      tap( _ => this.log('fetched userInfo')),
+      tap((_) => this.log('fetched userInfo')),
       catchError(err => {
         console.log(err);
         throw err;
@@ -44,7 +44,7 @@ export class UserInfoService {
   }
     
   /** Initialize user's info document in userInfo colleciton if it doesn't yet exist on firestore server */
-  initializeUserInfo(): Observable<UserInfo> {
+  initializeUserInfo(): any {
     let userInfoInit = JSON.parse(JSON.stringify(new UserInfoInit())); //??TODO: converter doesn't work b/c it's not part of angularfire --> need a different solution
     this.afStore.collection('userInfo').doc(this.authService.uid).set(userInfoInit);
     return userInfoInit;
