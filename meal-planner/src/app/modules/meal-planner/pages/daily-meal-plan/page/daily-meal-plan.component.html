@@ -54,6 +54,9 @@
           <input type="number" [(ngModel)]="food.groceryStoreOrder">
         </td>
       </ng-container>
+      <td>
+        <button type="button" (click)="removeFood(food, 'lunch')">X</button>
+      </td>
     </tr>
   </tbody>
 
@@ -70,6 +73,9 @@
           <input type="number" [(ngModel)]="food.groceryStoreOrder">
         </td>
       </ng-container>
+      <td>
+        <button type="button" (click)="removeFood(food, 'dinner')">X</button>
+      </td>
     </tr>
   </tbody> 
 </table>

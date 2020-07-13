@@ -121,23 +121,27 @@ export class DailyMealPlanComponent implements OnInit {
   }
 
   addToBreakfast(): void {
-    this.breakfast.push(this.selectedFood);
+    this.breakfast.push({...this.selectedFood});
     this.selectedFood = {};
   }
   
   addToLunch(): void {
-    this.lunch.push(this.selectedFood);
+    this.lunch.push({...this.selectedFood});
     this.selectedFood = {};
   }
   
   addToDinner(): void {
-    this.dinner.push(this.selectedFood);
+    this.dinner.push({...this.selectedFood});
     this.selectedFood = {};
   }
 
   removeFood(food: Food, meal: string): void {
     if (meal === 'breakfast') {
-      this.breakfast.splice(this.breakfast.indexOf(food),1);
+      this.breakfast.splice(this.breakfast.indexOf(food), 1);
+    } else if (meal === 'lunch') {
+      this.lunch.splice(this.lunch.indexOf(food), 1);
+    } else {
+      this.dinner.splice(this.dinner.indexOf(food), 1);
     }
   }
 

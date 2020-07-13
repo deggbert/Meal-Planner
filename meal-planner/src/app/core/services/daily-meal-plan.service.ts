@@ -49,7 +49,7 @@ export class DailyMealPlanService {
     return dailyMealPlan;
   }
 
-  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[]): Promise<void> {
+  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[], cutCalories?: number): Promise<void> {
     try {
       const breakfastData = breakfast.map((item, index) => {
         if (!item.servingsPerMeal) item.servingsPerMeal = 0;
