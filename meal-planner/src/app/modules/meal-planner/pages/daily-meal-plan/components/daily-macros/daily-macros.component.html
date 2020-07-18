@@ -3,9 +3,9 @@
     <table>
       <thead>
         <tr>
-          <td>Daily Caloric Need</td>
-          <td>Calories to Cut</td>
-          <td>Daily Calories</td>
+          <th scope="col">DAILY CALORIC NEED</th>
+          <th scope="col">CALORIES TO CUT</th>
+          <th scope="col">DAILY CALORIES</th>
         </tr>
       </thead>
       <tbody>
@@ -24,20 +24,20 @@
     <table>
       <thead>
         <tr>
-          <th *ngFor="let header of headers"> 
+          <th scope="col" *ngFor="let header of headers"> 
             {{ header }} 
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let macro of macroNutrients">
-          <th scope="row"> {{ macro.nutrient | uppercase }}</th>
-          <td> {{macro.recommended }} </td>
-          <td *ngIf="macro.nutrient !== 'carb'; else emptyCell"> 
-            <input type="number" [(ngModel)]="macro.chosen" (input)="calcMacroValues(macro)">
+        <tr *ngFor="let macro of dailyMacros | keyvalue: originalOrder">
+          <th scope="row"> {{ macro.value.nutrient | uppercase }}</th>
+          <td> {{macro.value.recommended }} </td>
+          <td *ngIf="macro.value.nutrient !== 'carb'; else emptyCell"> 
+            <input type="number" [(ngModel)]="macro.value.chosen" (input)="calcMacroValues(macro.value)">
           </td>
-          <td> {{ macro.grams }} </td>
-          <td> {{ macro.calories }} </td>
+          <td> {{ macro.value.grams }} </td>
+          <td> {{ macro.value.calories }} </td>
         </tr>
       </tbody>
     </table>

@@ -1,12 +1,15 @@
 export interface DailyMealPlan {
-  breakfast: Meal[],
-  lunch: Meal[],
-  dinner: Meal[]
+  breakfastData: Meal[],
+  lunchData: Meal[],
+  dinnerData: Meal[],
+  cutCalories: number,
+  fatChosen: number,
+  proteinChosen: number,
 }
 
 export interface Meal {
   docId: string,
-  num: number,
   servings: number,
   mealplan: boolean,
+  groceryStoreOrder?: number;
 }

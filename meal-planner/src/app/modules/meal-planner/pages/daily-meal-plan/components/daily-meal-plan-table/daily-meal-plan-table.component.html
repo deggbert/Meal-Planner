@@ -1,0 +1,104 @@
+<table>
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let header of headers">{{ header }}</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <th colspan="16">BREAKFAST</th>
+    <tr *ngFor="let food of breakfast">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food); calcCalorieSums()">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+      </ng-container>
+      <td> 
+        <button class="bttn-remove" type="button" (click)="removeFood(food, 'breakfast')">X</button>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">TOTAL BREAKFAST CALORIES: </th>
+      <td class="subtotals"> {{ breakfastFatSum }} </td>
+      <td class="subtotals"> {{ breakfastCarbSum }} </td>
+      <td class="subtotals"> {{ breakfastProteinSum }} </td> 
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <th colspan="16">LUNCH</th>
+    <tr *ngFor="let food of lunch">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food); calcCalorieSums()">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+      </ng-container>
+      <td>
+        <button class="bttn-remove" type="button" (click)="removeFood(food, 'lunch')">X</button>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">TOTAL LUNCH CALORIES: </th>
+      <td class="subtotals"> {{ lunchFatSum }} </td>
+      <td class="subtotals"> {{ lunchCarbSum }} </td>
+      <td class="subtotals"> {{ lunchProteinSum }} </td>
+    </tr>
+  </tbody>
+  
+  <tbody>
+    <th colspan="16">DINNER</th>
+    <tr *ngFor="let food of dinner">
+      <td *ngFor="let header of headers | slice: 0: 8; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td>
+        <input type="number" [(ngModel)]="food.servingsPerMeal" (input)="calculateValues(food); calcCalorieSums()">
+      </td>
+      <ng-container *ngIf="food.servingsPerMeal">
+        <td *ngFor="let header of headers | slice: 9: 16; index as i"> {{ getObjectValues(food)[i+9] }}</td>
+      </ng-container>
+      <td>
+        <button class="bttn-remove" type="button" (click)="removeFood(food, 'dinner')">X</button>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">TOTAL DINNER CALORIES: </th>
+      <td class="subtotals"> {{ dinnerFatSum }} </td>
+      <td class="subtotals"> {{ dinnerCarbSum }} </td>
+      <td class="subtotals"> {{ dinnerProteinSum }} </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="16" class="borderless" style="height:5px"></td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">TOTAL CALORIES: </th>
+      <td class="totals"> {{ fatSum }} </td>
+      <td class="totals"> {{ carbSum }} </td>
+      <td class="totals"> {{ proteinSum }} </td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">CALORIE GOALS: </th>
+      <td class="dailyValues"> {{ dailyMacros.fat.calories }} </td>
+      <td class="dailyValues"> {{ dailyMacros.carb.calories }} </td>
+      <td class="dailyValues"> {{ dailyMacros.protein.calories }} </td>
+    </tr>
+    <tr>
+      <th colspan="13" scope="row" class="borderless">DIFFERENCE: </th>
+      <td [class]="diffColor(fatDiff)"> {{ fatDiff }} </td>
+      <td [class]="diffColor(carbDiff)"> {{ carbDiff }} </td>
+      <td [class]="diffColor(proteinDiff)"> {{ proteinDiff }} </td>
+    </tr>
+  </tfoot>
+</table>
+
+<ng-container *ngIf="isEmptyObject(selectedFood)">Selcted Food: None</ng-container> 
+<ng-container *ngIf="!isEmptyObject(selectedFood)">Selcted Food: {{ selectedFood.name }}, {{ selectedFood.brand }}, {{ selectedFood.containerSize}} </ng-container> 
+
+<button (click)="addToBreakfast()" [disabled]="isEmptyObject(selectedFood)">Add to Breakfast</button>
+<button (click)="addToLunch()" [disabled]="isEmptyObject(selectedFood)">Add to Lunch</button>
+<button (click)="addToDinner()" [disabled]="isEmptyObject(selectedFood)">Add to Dinner</button>

@@ -14,7 +14,6 @@ export interface Food {
   protein?: number;
   // set values
   servingsPerMeal?: number;
-  groceryStoreOrder?: number;
   // calculated values
   servingsPerContainer?: number;
   servingSizePerMeal?: number;

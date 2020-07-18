@@ -41,15 +41,18 @@ export class DailyMealPlanService {
 
   initializeDailyMealPlan() {
     const dailyMealPlan: DailyMealPlan = {
-      breakfast: [],
-      lunch: [],
-      dinner: [],
+      breakfastData: [],
+      lunchData: [],
+      dinnerData: [],
+      cutCalories: 0,
+      fatChosen: 0,
+      proteinChosen: 0,
     };
     this.afStore.collection('dailyMealPlan').doc(this.authService.uid).set(dailyMealPlan);
     return dailyMealPlan;
   }
 
-  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[], cutCalories?: number): Promise<void> {
+  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[], cutCalories: number, fatChosen: number, proteinChosen: number): Promise<void> {
     try {
       const breakfastData = breakfast.map((item, index) => {
         if (!item.servingsPerMeal) item.servingsPerMeal = 0;
@@ -88,6 +91,9 @@ export class DailyMealPlanService {
         breakfast: breakfastData,
         lunch: lunchData,
         dinner: dinnerData,
+        cutCalories: cutCalories,
+        fatChosen: fatChosen,
+        proteinChosen: proteinChosen,
       };
       
       this.log('updated Daily Meal Plan **NOT YET SAVED TO SERVER**')

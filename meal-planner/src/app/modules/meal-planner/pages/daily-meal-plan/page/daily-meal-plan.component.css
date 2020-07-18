@@ -1,25 +1,6 @@
 button {
   margin: 5px;
-}
-
-table {
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid black;
-}
-
-th, td {
-  text-align: center;
-  width: fit-content;
-  max-width: 75px;
-  font-size: 12px;
-}
-
-th[colspan="17"] {
-  background-color: grey;
+  display: block;
 }
 
 input {
