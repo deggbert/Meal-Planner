@@ -7,10 +7,7 @@ import { DailyMealPlanResolverService } from './pages/daily-meal-plan/resolvers/
 import { FoodListResolverService } from './pages/daily-meal-plan/resolvers/food-list-resolver.service';
 
 import { HomeComponent } from './pages/home/home.component';
-import { FoodStockComponent } from './pages/food-stock/food-stock.component';
 import { MealPrepComponent } from './pages/meal-prep/meal-prep.component';
-
-
 
 const routes: Routes = [
   { 
@@ -33,7 +30,7 @@ const routes: Routes = [
   },
   { 
     path: 'daily-meal-plan', 
-    loadChildren: () => import('./pages/daily-meal-plan/daily-meal-plan.module').then(m => m.DailyMealPlanModule) ,
+    loadChildren: () => import('./pages/daily-meal-plan/daily-meal-plan.module').then(m => m.DailyMealPlanModule),
     canActivate: [AuthGuard],
     resolve: {
       dailyMealPlan: DailyMealPlanResolverService,
@@ -42,9 +39,12 @@ const routes: Routes = [
     }
   },
   { 
-    path: 'food-stock', 
-    component: FoodStockComponent, 
-    canActivate: [AuthGuard]
+    path: 'pantry', 
+    loadChildren: () => import('./pages/pantry/pantry.module').then(m => m.PantryModule),
+    canActivate: [AuthGuard],
+    resolve: {
+      dailyMealPlan: DailyMealPlanResolverService,
+    }
   },
   { 
     path: 'meal-prep', 

@@ -33,7 +33,7 @@ export class DailyMealPlanComponent implements OnInit {
   selectedFood: Food = {};
   
   constructor(
-    private route: ActivatedRoute,
+  private route: ActivatedRoute,
     private dailyMealPlanService: DailyMealPlanService,
   ) { 
     this.route.data.subscribe((data) => {
