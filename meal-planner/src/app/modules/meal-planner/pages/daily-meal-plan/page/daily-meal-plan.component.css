@@ -9,3 +9,10 @@ input {
   /* -moz-box-sizing: border-box; */
   /* -webkit-box-sizing: border-box; */
 }
+
+.inline {
+  display: inline-block;
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+}

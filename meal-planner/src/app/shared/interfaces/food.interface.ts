@@ -14,6 +14,7 @@ export interface Food {
   protein?: number;
   // set values
   servingsPerMeal?: number;
+  pantryQuantity?: number;
   // calculated values
   servingsPerContainer?: number;
   servingSizePerMeal?: number;
@@ -22,6 +23,9 @@ export interface Food {
   fatPerMeal?: number;
   carbPerMeal?: number;
   proteinPerMeal?: number;
+
+  servingSizePerMealPrep?: number;
+  mealPrepsPerContainer?:number;
   // search strings
   nameSearchStrings?: string[];
   brandSearchStrings?: string[];

@@ -5,6 +5,8 @@
 <app-daily-macros [userInfo]="userInfo" [cutCalories]="cutCalories" [fatChosen]="fatChosen" [proteinChosen]="proteinChosen" (setCutCaloriesEvent)="cutCalories=$event" 
   (setDailyMacros)="dailyMacros=$event"></app-daily-macros>
 
+Number of Meal Prep Days: <input class="inline" [(ngModel)]="mealPrepDays">
+
 <h3>Daily Meal Plan Table</h3>
 <app-daily-meal-plan-table [breakfastData]="breakfastData" [lunchData]="lunchData" [dinnerData]="dinnerData" [foodList]="foodList" [selectedFood]="selectedFood" [dailyMacros]="dailyMacros"
 (breakfastEvent)="breakfast=$event" (lunchEvent)="lunch=$event" (dinnerEvent)="dinner=$event"></app-daily-meal-plan-table> 

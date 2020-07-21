@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router'
 
 import { DailyMealPlanService } from 'src/app/core/services/daily-meal-plan.service';
 
-import { Meal } from 'src/app/shared/interfaces/daily-meal-plan.interface';
+import { MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
+import { Food } from 'src/app/shared/interfaces/food.interface';
 
 @Component({
   selector: 'app-pantry',
@@ -12,9 +13,11 @@ import { Meal } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 })
 export class PantryComponent implements OnInit {
 
-  breakfastData: Meal[];
-  lunchData: Meal[];
-  dinnerData: Meal[];
+  breakfastData: MealItem[];
+  lunchData: MealItem[];
+  dinnerData: MealItem[];
+  mealPrepDays: number;
+  foodList: Food[];
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +27,9 @@ export class PantryComponent implements OnInit {
       this.breakfastData = data.dailyMealPlan.breakfast;
       this.lunchData = data.dailyMealPlan.lunch;
       this.dinnerData = data.dailyMealPlan.dinner;
-    });
+      this.mealPrepDays = data.dailyMealPlan.mealPrepDays;
+      this.foodList = data.foodList;
+    }); 
   }
 
   ngOnInit(): void {

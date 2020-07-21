@@ -44,6 +44,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       dailyMealPlan: DailyMealPlanResolverService,
+      foodList: FoodListResolverService,
     }
   },
   { 

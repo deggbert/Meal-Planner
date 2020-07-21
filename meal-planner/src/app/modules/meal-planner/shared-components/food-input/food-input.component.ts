@@ -24,7 +24,7 @@ export class FoodInputComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  addFood() {
+  addFood(): void {
     if (this.foodList.some(food =>
       food.name === this.food.name &&
       food.brand === this.food.brand &&
@@ -47,13 +47,13 @@ export class FoodInputComponent implements OnInit {
     this.food = {};
   }
   
-  updateFood() {
+  updateFood(): void {
     this.foodService.updateFood(this.food);
     this.food = {};
     this.updateOrDeleteEvent.emit();
   }
 
-  deleteFood() {
+  deleteFood(): void {
     if (!confirm('ARE YOU SURE YOU WANT TO DELETE?')) {
       return;
     }

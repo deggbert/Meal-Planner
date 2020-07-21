@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DailyMealPlanService } from 'src/app/core/services/daily-meal-plan.service';
 
-import { Meal } from 'src/app/shared/interfaces/daily-meal-plan.interface';
+import { MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
 import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
@@ -14,9 +14,9 @@ import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
   styleUrls: ['./daily-meal-plan.component.css'],
 })
 export class DailyMealPlanComponent implements OnInit {
-  breakfastData: Meal[];
-  lunchData: Meal[];
-  dinnerData: Meal[];
+  breakfastData: MealItem[];
+  lunchData: MealItem[];
+  dinnerData: MealItem[];
   cutCalories: number;
   fatChosen: string;
   proteinChosen: string;
@@ -29,6 +29,8 @@ export class DailyMealPlanComponent implements OnInit {
   dinner: Food[];
   
   dailyMacros: DailyMacros;
+
+  mealPrepDays: number;
 
   selectedFood: Food = {};
   
@@ -43,6 +45,7 @@ export class DailyMealPlanComponent implements OnInit {
       this.cutCalories = data.dailyMealPlan.cutCalories;
       this.fatChosen = data.dailyMealPlan.fatChosen;
       this.proteinChosen = data.dailyMealPlan.proteinChosen;
+      this.mealPrepDays = data.dailyMealPlan.mealPrepDays;
 
       this.foodList = data.foodList;
 
@@ -53,6 +56,7 @@ export class DailyMealPlanComponent implements OnInit {
   ngOnInit(): void { }
 
   updateDailyMealPlan(): void {
-    this.dailyMealPlanService.updateDailyMealPlan(this.breakfast, this.lunch, this.dinner, this.cutCalories, this.dailyMacros.fat.chosen, this.dailyMacros.protein.chosen);
+    this.dailyMealPlanService.updateDailyMealPlan(this.breakfast, this.lunch, this.dinner, this.cutCalories, this.dailyMacros.fat.chosen, this.dailyMacros.protein.chosen,
+      this.mealPrepDays);
   }
 }

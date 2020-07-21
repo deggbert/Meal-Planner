@@ -1,1 +1,21 @@
-<p>pantry-table works!</p>
+<h3>Pantry Table</h3>
+
+<button type="button" (click)="toggleEdit()">Toggle Edit</button>
+<button type="button" (click)="update()">Update</button>
+<table>
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let header of headers">{{ header }}</th>
+    </tr>
+  </thead>
+    
+  <tbody>
+    <tr *ngFor="let food of pantryItems">
+      <td *ngFor="let header of headers; index as i">{{ getObjectValues(food)[i] }}</td>
+      <td> 
+        <button *ngIf="isEdit" class="bttn" type="button" (click)="increaseQuantity(food)">↑</button>
+        <button *ngIf="isEdit" class="bttn" type="button" (click)="decreaseQuantity(food)">↓</button>
+      </td>
+    </tr>
+  
+  </tbody>

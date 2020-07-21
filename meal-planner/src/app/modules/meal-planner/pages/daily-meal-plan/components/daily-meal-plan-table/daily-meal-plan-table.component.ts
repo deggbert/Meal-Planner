@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Meal } from 'src/app/shared/interfaces/daily-meal-plan.interface';
+import { MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
 
@@ -31,9 +31,9 @@ enum FoodHeaders {
 })
 export class DailyMealPlanTableComponent implements OnInit {
   @Input() selectedFood: Food = {};
-  @Input() breakfastData: Meal[];
-  @Input() lunchData: Meal[];
-  @Input() dinnerData: Meal[];
+  @Input() breakfastData: MealItem[];
+  @Input() lunchData: MealItem[];
+  @Input() dinnerData: MealItem[];
   @Input() foodList: Food[];
   @Input() dailyMacros: DailyMacros;
   

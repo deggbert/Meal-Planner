@@ -8,7 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MessageService } from './message.service';
 
-import { DailyMealPlan, Meal } from 'src/app/shared/interfaces/daily-meal-plan.interface';
+import { DailyMealPlan, MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 
 @Injectable({
@@ -47,12 +47,13 @@ export class DailyMealPlanService {
       cutCalories: 0,
       fatChosen: 0,
       proteinChosen: 0,
+      mealPrepDays: 1,
     };
     this.afStore.collection('dailyMealPlan').doc(this.authService.uid).set(dailyMealPlan);
     return dailyMealPlan;
   }
 
-  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[], cutCalories: number, fatChosen: number, proteinChosen: number): Promise<void> {
+  async updateDailyMealPlan(breakfast: Food[], lunch: Food[], dinner: Food[], cutCalories: number, fatChosen: number, proteinChosen: number, mealPrepDays: number): Promise<void> {
     try {
       const breakfastData = breakfast.map((item, index) => {
         if (!item.servingsPerMeal) item.servingsPerMeal = 0;
@@ -94,11 +95,12 @@ export class DailyMealPlanService {
         cutCalories: cutCalories,
         fatChosen: fatChosen,
         proteinChosen: proteinChosen,
+        mealPrepDays: mealPrepDays,
       };
       
       this.log('updated Daily Meal Plan **NOT YET SAVED TO SERVER**')
   
-      this.afStore.collection('dailyMealPlan').doc(this.authService.uid).set(dailyMealPlan, { merge: false });
+      this.afStore.collection('dailyMealPlan').doc(this.authService.uid).update(dailyMealPlan);
   
       this.log('Daily Meal Plan SAVED to server')
 
