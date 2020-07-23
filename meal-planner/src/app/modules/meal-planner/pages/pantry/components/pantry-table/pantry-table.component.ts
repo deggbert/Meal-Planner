@@ -11,6 +11,7 @@ enum PantryItemsHeaders {
   "CONTAINER SIZE" = "containerSize",
   "SERVING SIZE/ MEAL PREP" = "servingSizePerMealPrep",
   "MEAL PREPS/ CONTAINER" = "mealPrepsPerContainer",
+  "GROCERY STORE ORDER" = "groceryStoreOrder",
   "PANTRY QUANTITY" = "pantryQuantity",
 }
 @Component({
@@ -27,9 +28,11 @@ export class PantryTableComponent implements OnInit {
 
   pantryItemsData: MealItem[] = [];
   pantryItems: Food[];
-  updateItems: Food[] = [];
+  foodToUpdate: Food[] = [];
+  groceryItemNumber: number;
   
   isEdit: boolean = false;
+  isGroceryTrip: boolean = false;
 
   headers: string[] = [
     "NAME",
@@ -37,6 +40,7 @@ export class PantryTableComponent implements OnInit {
     "CONTAINER SIZE",
     "SERVING SIZE/ MEAL PREP",
     "MEAL PREPS/ CONTAINER",
+    "GROCERY STORE ORDER",
     "PANTRY QUANTITY",
   ];
   
@@ -50,15 +54,14 @@ export class PantryTableComponent implements OnInit {
   
   convertMealItemsToPantryItems(): void {
     let mealPlanItems: MealItem[] = [...this.breakfastData, ...this.lunchData, ...this.dinnerData];
-    
     let pantryItemsData: MealItem[] = [];
 
     mealPlanItems.forEach((mealItem) => {
       let index: number = -1;
-      let length: number = pantryItemsData.length;
+      let length: number = this.pantryItemsData.length;
       while (++index < length) {
-        if (mealItem.docId === pantryItemsData[index].docId) {
-          pantryItemsData[index].servings += mealItem.servings;
+        if (mealItem.docId === this.pantryItemsData[index].docId) {
+          this.pantryItemsData[index].servings += mealItem.servings;
           return; 
         }
       }
@@ -80,19 +83,57 @@ export class PantryTableComponent implements OnInit {
     this.isEdit = !this.isEdit;
   }
 
-  update(): void {
-    this.updateItems.forEach((food) => {
-      this.foodService.updateFood(food);
-    })
-  }
-
   increaseQuantity(food: Food): void {
     food.pantryQuantity++;
-    this.updateItems.push(food);
+    this.addToUpdateList(food);
   }
   decreaseQuantity(food: Food): void {
     food.pantryQuantity--;
-    this.updateItems.push(food);
+    this.addToUpdateList(food);
+  }
+  addToUpdateList(food: Food) {
+    debugger;
+    if (!this.foodToUpdate.some((item => {
+      return item.docId === food.docId;
+    }))) {
+      this.foodToUpdate.push(food);
+    }
+  }
+  update(): void {
+    this.isEdit = false;
+    this.sortPantryItems();
+    this.foodToUpdate.forEach((food) => {
+      this.foodService.updateFood(food);
+    })
+    this.foodToUpdate = [];
+  }
+  sortPantryItems(): void {
+    this.pantryItems.sort((a,b) => {
+      return a.groceryStoreOrder - b.groceryStoreOrder;
+    });
+  }
+
+  startGroceryTrip(): void {
+    this.isGroceryTrip = !this.isGroceryTrip;
+    this.groceryItemNumber = 0;
+  }
+  skipGroceryItem(): void {
+    if (this.groceryItemNumber === (this.pantryItems.length - 1)) {
+      this.update();
+      this.isGroceryTrip = !this.isGroceryTrip;
+      return;
+    }
+    this.groceryItemNumber++;
+  }
+  buyGroceryItem(num: number): void {
+    this.pantryItems[num].pantryQuantity++;
+    this.addToUpdateList(this.pantryItems[num]);
+    if (this.groceryItemNumber === (this.pantryItems.length - 1)) {
+      this.update();
+      this.isGroceryTrip = !this.isGroceryTrip;
+      return;
+    }
+    this.groceryItemNumber++;
   }
 
   getObjectValues(pantryItem: Food) {

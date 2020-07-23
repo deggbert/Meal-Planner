@@ -6,7 +6,7 @@ import { PantryComponent } from './page/pantry.component';
 const routes: Routes = [
   { 
     path: '', 
-  component: PantryComponent 
+    component: PantryComponent,
   }
 ];
 

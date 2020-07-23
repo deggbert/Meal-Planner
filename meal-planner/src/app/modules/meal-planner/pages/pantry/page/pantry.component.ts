@@ -19,6 +19,8 @@ export class PantryComponent implements OnInit {
   mealPrepDays: number;
   foodList: Food[];
 
+  isGroceryTrip: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private dailyMealPlanService: DailyMealPlanService
