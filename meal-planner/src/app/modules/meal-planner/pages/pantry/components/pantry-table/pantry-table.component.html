@@ -55,7 +55,7 @@
       <input type="number" [(ngModel)]="food.groceryStoreOrder" (input)=addToUpdateList(food)>
       <button class="bttn-order" type="button" (click)="changeBuyOption(food)">STORE</button>
     </td>
-    <td *ngFor="let header of headers | slice: 7; index as i">{{ getObjectValues(food)[i+6] }}</td>
+    <td *ngFor="let header of headers | slice: 7; index as i">{{ getObjectValues(food)[i+7] }}</td>
     <button class="bttn" type="button" (click)="increaseQuantity(food)">↑</button>
     <button class="bttn" type="button" (click)="decreaseQuantity(food)">↓</button>
   </tr>
@@ -64,11 +64,15 @@
     <th colspan="8">ONLINE ITEMS</th>
   </tr>
   <tr *ngFor="let food of onlineItems | sortBy: 'asc': 'name'"> 
-    <td *ngFor="let header of headers | slice: 0: 5; index as i">{{ getObjectValues(food)[i] }}</td>
+    <td *ngFor="let header of headers | slice: 0: 3; index as i">{{ getObjectValues(food)[i] }}</td>
+    <td>
+      <input type="checkbox" [(ngModel)]="food.mealPrep" (input)="addToUpdateList(food)">
+    </td>
+    <td *ngFor="let header of headers | slice: 4: 6; index as i">{{ getObjectValues(food)[i] }}</td>
     <td>
       <button class="bttn-order" type="button" (click)="changeBuyOption(food)">ONLINE</button>
     </td>
-    <td *ngFor="let header of headers | slice: 6; index as i">{{ getObjectValues(food)[i+6] }}</td>
+    <td *ngFor="let header of headers | slice: 7; index as i">{{ getObjectValues(food)[i+7] }}</td>
     <button class="bttn" type="button" (click)="increaseQuantity(food)">↑</button>
     <button class="bttn" type="button" (click)="decreaseQuantity(food)">↓</button>
   </tr>
