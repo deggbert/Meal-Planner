@@ -9,6 +9,7 @@ enum PantryItemsHeaders {
   "NAME" = "name",
   "BRAND" = "brand",
   "CONTAINER SIZE" = "containerSize",
+  "MEAL PREP" = "mealPrep",
   "SERVING SIZE/ MEAL PREP" = "servingSizePerMealPrep",
   "MEAL PREPS/ CONTAINER" = "mealPrepsPerContainer",
   "GROCERY STORE ORDER" = "groceryStoreOrder",
@@ -29,7 +30,9 @@ export class PantryTableComponent implements OnInit {
   pantryItemsData: MealItem[] = [];
   pantryItems: Food[];
   foodToUpdate: Food[] = [];
+  groceryStoreItems: Food[] = [];
   groceryItemNumber: number;
+  onlineItems: Food[] = [];
   
   isEdit: boolean = false;
   isGroceryTrip: boolean = false;
@@ -38,6 +41,7 @@ export class PantryTableComponent implements OnInit {
     "NAME",
     "BRAND",
     "CONTAINER SIZE",
+    "MEAL PREP",
     "SERVING SIZE/ MEAL PREP",
     "MEAL PREPS/ CONTAINER",
     "GROCERY STORE ORDER",
@@ -46,15 +50,22 @@ export class PantryTableComponent implements OnInit {
   
   constructor(
     private foodService: FoodService,
-  ) { }
-
-  ngOnInit(): void {
-    this.convertMealItemsToPantryItems();
-  }
-  
+    ) { }
+    
+    ngOnInit(): void {
+      this.convertMealItemsToPantryItems();
+      this.sortPantryItems();
+    }
+    
+    update(): void {
+      this.foodToUpdate.forEach((food) => {
+        this.foodService.updateFood(food);
+      })
+      this.foodToUpdate = [];
+    }
+    
   convertMealItemsToPantryItems(): void {
     let mealPlanItems: MealItem[] = [...this.breakfastData, ...this.lunchData, ...this.dinnerData];
-    let pantryItemsData: MealItem[] = [];
 
     mealPlanItems.forEach((mealItem) => {
       let index: number = -1;
@@ -73,9 +84,24 @@ export class PantryTableComponent implements OnInit {
         return foodListItem.docId === pantryItem.docId;
       });
       let foodClone = {...food};
+      if (!foodClone.buyOption) {
+        foodClone.buyOption = 'groceryStore';
+      }
+      if (!foodClone.mealPlan) {
+        foodClone.mealPlan = false;
+      }
       foodClone.servingSizePerMealPrep = +(pantryItem.servings * foodClone.servingSize* this.mealPrepDays).toFixed(2);
       foodClone.mealPrepsPerContainer = +(foodClone.containerSize / foodClone.servingSizePerMealPrep ).toFixed(2);
       return foodClone;
+    });
+  }
+
+  sortPantryItems(): void {
+    this.groceryStoreItems = this.pantryItems.filter((pantryItem) => {
+      return pantryItem.buyOption === 'groceryStore';
+    });
+    this.onlineItems = this.pantryItems.filter((pantryItem) => {
+      return pantryItem.buyOption === 'online';
     });
   }
 
@@ -91,34 +117,38 @@ export class PantryTableComponent implements OnInit {
     food.pantryQuantity--;
     this.addToUpdateList(food);
   }
+
   addToUpdateList(food: Food) {
-    debugger;
     if (!this.foodToUpdate.some((item => {
       return item.docId === food.docId;
     }))) {
       this.foodToUpdate.push(food);
     }
   }
-  update(): void {
-    this.isEdit = false;
-    this.sortPantryItems();
-    this.foodToUpdate.forEach((food) => {
-      this.foodService.updateFood(food);
-    })
-    this.foodToUpdate = [];
-  }
-  sortPantryItems(): void {
-    this.pantryItems.sort((a,b) => {
-      return a.groceryStoreOrder - b.groceryStoreOrder;
-    });
-  }
 
+  buyAtGroceryStore(food: Food): boolean {
+    return food.buyOption === 'groceryStore' ;
+  }
+  buyOnline(food: Food): boolean {
+    return food.buyOption === 'online' ;
+  }
+  changeBuyOption(food: Food) {
+    if (food.buyOption === 'groceryStore') {
+      food.buyOption = 'online';
+      food.groceryStoreOrder = 'ONLINE';
+    } else {
+      food.buyOption = 'groceryStore';
+    }
+    this.sortPantryItems();
+    this.addToUpdateList(food);
+  }
+  
   startGroceryTrip(): void {
     this.isGroceryTrip = !this.isGroceryTrip;
     this.groceryItemNumber = 0;
   }
   skipGroceryItem(): void {
-    if (this.groceryItemNumber === (this.pantryItems.length - 1)) {
+    if (this.groceryItemNumber === (this.groceryStoreItems.length - 1)) {
       this.update();
       this.isGroceryTrip = !this.isGroceryTrip;
       return;
@@ -126,9 +156,9 @@ export class PantryTableComponent implements OnInit {
     this.groceryItemNumber++;
   }
   buyGroceryItem(num: number): void {
-    this.pantryItems[num].pantryQuantity++;
-    this.addToUpdateList(this.pantryItems[num]);
-    if (this.groceryItemNumber === (this.pantryItems.length - 1)) {
+    this.groceryStoreItems[num].pantryQuantity++;
+    this.addToUpdateList(this.groceryStoreItems[num]);
+    if (this.groceryItemNumber === (this.groceryStoreItems.length - 1)) {
       this.update();
       this.isGroceryTrip = !this.isGroceryTrip;
       return;
@@ -143,7 +173,13 @@ export class PantryTableComponent implements OnInit {
       if (typeof value === 'string') {
         value = value[0].toUpperCase() + value.slice(1);
       }
-      if (!value) {
+      if (value === false) {
+        value = 'NO'
+      }
+      if (value === true) {
+        value = 'YES';
+      }
+      if (value === undefined) {
         value = 0;
       }
       values.push(value);

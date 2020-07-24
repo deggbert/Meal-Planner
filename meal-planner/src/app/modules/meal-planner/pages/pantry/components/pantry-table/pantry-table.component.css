@@ -9,7 +9,16 @@ button {
   display: inline-block;
   font-size: 12px;
   text-align: center;
-  line-height: 18px;
+}
+.bttn-order {
+  margin: 0;
+  padding: 0;
+  margin-left: 5px;
+  width: fit-content;
+  height: 18px;
+  display: inline-block;
+  font-size: 12px;
+  text-align: center;
 }
 
 table {
@@ -33,7 +42,8 @@ td {
 }
 
 input {
-  width: 100%;
+  display: inline-block;
+  width: 25px;
   box-sizing: border-box;
   /* -moz-box-sizing: border-box; */
   /* -webkit-box-sizing: border-box; */

@@ -8,7 +8,9 @@
   <table>
     <colgroup>
       <col span="2" style="width: fit-content">
-      <col span="5" style="width: 100px">
+      <col span="1" style="width: 100px">
+      <col span="1" style="width: 50px">
+      <col span="4" style="width: 100px">
     </colgroup>
 
     <thead>
@@ -19,19 +21,52 @@
     
     <tbody>
       <ng-container *ngIf="(!isEdit); else edit">
-        <tr *ngFor="let food of pantryItems | sortBy: 'asc': 'groceryStoreOrder'">
+        <tr >
+          <th colspan="8">GROCERY STORE ITEMS</th>
+        </tr>
+        <tr *ngFor="let food of groceryStoreItems | sortBy: 'asc': 'groceryStoreOrder'">
           <td *ngFor="let header of headers; index as i">{{ getObjectValues(food)[i] }}</td>
         </tr>
+        <ng-container *ngIf="onlineItems.length">
+
+        <tr>
+          <th colspan="8">ONLINE ITEMS</th>
+        </tr>
+          <tr *ngFor="let food of onlineItems | sortBy: 'asc': 'name'">
+            <td *ngFor="let header of headers; index as i">{{ getObjectValues(food)[i] }}</td>
+          </tr> 
+        </ng-container>
       </ng-container>
     </tbody>
   </table>
 </ng-container>
 
 <ng-template #edit>
-  <tr *ngFor="let food of pantryItems | sortBy: 'asc': 'groceryStoreOrder'">
-    <td *ngFor="let header of headers | slice: 0: 5; index as i">{{ getObjectValues(food)[i] }}</td>
+  <tr>
+    <th colspan="8">GROCERY STORE ITEMS</th>
+  </tr>
+  <tr *ngFor="let food of groceryStoreItems | sortBy: 'asc': 'groceryStoreOrder'">
+    <td *ngFor="let header of headers | slice: 0: 3; index as i">{{ getObjectValues(food)[i] }}</td>
+    <td>
+      <input type="checkbox" [(ngModel)]="food.mealPrep" (input)="addToUpdateList(food)">
+    </td>
+    <td *ngFor="let header of headers | slice: 4: 6; index as i">{{ getObjectValues(food)[i+4] }}</td>
     <td>
       <input type="number" [(ngModel)]="food.groceryStoreOrder" (input)=addToUpdateList(food)>
+      <button class="bttn-order" type="button" (click)="changeBuyOption(food)">STORE</button>
+    </td>
+    <td *ngFor="let header of headers | slice: 7; index as i">{{ getObjectValues(food)[i+6] }}</td>
+    <button class="bttn" type="button" (click)="increaseQuantity(food)">↑</button>
+    <button class="bttn" type="button" (click)="decreaseQuantity(food)">↓</button>
+  </tr>
+
+  <tr>
+    <th colspan="8">ONLINE ITEMS</th>
+  </tr>
+  <tr *ngFor="let food of onlineItems | sortBy: 'asc': 'name'"> 
+    <td *ngFor="let header of headers | slice: 0: 5; index as i">{{ getObjectValues(food)[i] }}</td>
+    <td>
+      <button class="bttn-order" type="button" (click)="changeBuyOption(food)">ONLINE</button>
     </td>
     <td *ngFor="let header of headers | slice: 6; index as i">{{ getObjectValues(food)[i+6] }}</td>
     <button class="bttn" type="button" (click)="increaseQuantity(food)">↑</button>
@@ -41,12 +76,12 @@
 
 <ng-template #groceryTrip>
   <div class="container">
-    <div class="centerTitle">ITEM {{ groceryItemNumber + 1 }} / {{ pantryItems.length }}</div>
+    <div class="centerTitle">ITEM {{ groceryItemNumber + 1 }} / {{ groceryStoreItems.length }}</div>
     <div class="line"></div>
-    <div class="center">{{ pantryItems[groceryItemNumber].name | uppercase }}</div>
-    <div class="center">{{ pantryItems[groceryItemNumber].brand | uppercase }}</div>
-    <div class="center">{{ pantryItems[groceryItemNumber].containerSize }}</div>
-    <div class="center" [class.zero]="pantryItems[groceryItemNumber].pantryQuantity === 0">QUANTITY: {{ pantryItems[groceryItemNumber].pantryQuantity }}</div>
+    <div class="center">{{ groceryStoreItems[groceryItemNumber].name | uppercase }}</div>
+    <div class="center">{{ groceryStoreItems[groceryItemNumber].brand | uppercase }}</div>
+    <div class="center">{{ groceryStoreItems[groceryItemNumber].containerSize }}</div>
+    <div class="center" [class.zero]="groceryStoreItems[groceryItemNumber].pantryQuantity === 0">QUANTITY: {{ groceryStoreItems[groceryItemNumber].pantryQuantity }}</div>
     <div class="line"></div>
     <button class="col1" (click)="skipGroceryItem()">SKIP</button>
     <button class="col2" (click)="buyGroceryItem(groceryItemNumber)">BUY</button>

@@ -15,8 +15,9 @@ export interface Food {
   // set values
   servingsPerMeal?: number;
   pantryQuantity?: number;
-
-  groceryStoreOrder?: number;
+  buyOption?: string;
+  groceryStoreOrder?: number | string;
+  mealPlan?: boolean;
   // calculated values
   servingsPerContainer?: number;
   servingSizePerMeal?: number;
