@@ -7,7 +7,6 @@ import { DailyMealPlanResolverService } from './pages/daily-meal-plan/resolvers/
 import { FoodListResolverService } from './pages/daily-meal-plan/resolvers/food-list-resolver.service';
 
 import { HomeComponent } from './pages/home/home.component';
-import { MealPrepComponent } from './pages/meal-prep/meal-prep.component';
 
 const routes: Routes = [
   { 
@@ -49,9 +48,14 @@ const routes: Routes = [
   },
   { 
     path: 'meal-prep', 
-    component: MealPrepComponent, 
-    canActivate: [AuthGuard]
-  },
+    loadChildren: () => import('./pages/meal-prep/meal-prep.module').then(m => m.MealPrepModule),
+    canActivate: [AuthGuard],
+    resolve: {
+      dailyMealPlan: DailyMealPlanResolverService,
+      foodList: FoodListResolverService,
+    }
+  }
+
 ];
 
 @NgModule({

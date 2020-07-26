@@ -62,7 +62,6 @@ export class DailyMealPlanService {
           docId: item.docId,
           num: index,
           servings: item.servingsPerMeal,
-          mealplan: true,
         }
       });
   
@@ -73,7 +72,6 @@ export class DailyMealPlanService {
           docId: item.docId,
           num: index,
           servings: item.servingsPerMeal,
-          mealplan: true,
         }
       });
   
@@ -84,7 +82,6 @@ export class DailyMealPlanService {
           docId: item.docId,
           num: index,
           servings: item.servingsPerMeal,
-          mealplan: true,
         }
       });
   

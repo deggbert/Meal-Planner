@@ -86,11 +86,11 @@ export class DailyMealPlanTableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  //TODO: break logic into separate method and call (each method should do one thing --break into parts)
     if (this.breakfastData.length === 0) {
       this.breakfast = [];
       this.breakfastEvent.emit(this.breakfast);
-  } else {
+    } else {
       this.breakfast = this.breakfastData.map((breakfastItem) => {
         let food = this.foodList.find((foodListItem) => {
           return foodListItem.docId === breakfastItem.docId; 

@@ -11,6 +11,4 @@ export interface DailyMealPlan {
 export interface MealItem {
   docId: string,
   servings: number,
-  mealplan: boolean,
-  groceryStoreOrder?: number;
 }

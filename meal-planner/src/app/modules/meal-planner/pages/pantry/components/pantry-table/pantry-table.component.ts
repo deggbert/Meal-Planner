@@ -87,10 +87,11 @@ export class PantryTableComponent implements OnInit {
       if (!foodClone.buyOption) {
         foodClone.buyOption = 'groceryStore';
       }
-      if (!foodClone.mealPlan) {
-        foodClone.mealPlan = false;
+      if (!foodClone.mealPrep) {
+        foodClone.mealPrep = false;
+        this.addToUpdateList(foodClone);
       }
-      foodClone.servingSizePerMealPrep = +(pantryItem.servings * foodClone.servingSize* this.mealPrepDays).toFixed(2);
+      foodClone.servingSizePerMealPrep = +(pantryItem.servings * foodClone.servingSize * this.mealPrepDays).toFixed(2);
       foodClone.mealPrepsPerContainer = +(foodClone.containerSize / foodClone.servingSizePerMealPrep ).toFixed(2);
       return foodClone;
     });
@@ -158,7 +159,7 @@ export class PantryTableComponent implements OnInit {
   buyGroceryItem(num: number): void {
     this.groceryStoreItems[num].pantryQuantity++;
     this.addToUpdateList(this.groceryStoreItems[num]);
-    if (this.groceryItemNumber === (this.groceryStoreItems.length - 1)) {
+  if (this.groceryItemNumber === (this.groceryStoreItems.length - 1)) {
       this.update();
       this.isGroceryTrip = !this.isGroceryTrip;
       return;

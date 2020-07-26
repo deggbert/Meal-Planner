@@ -17,7 +17,7 @@ export interface Food {
   pantryQuantity?: number;
   buyOption?: string;
   groceryStoreOrder?: number | string;
-  mealPlan?: boolean;
+  mealPrep?: boolean;
   // calculated values
   servingsPerContainer?: number;
   servingSizePerMeal?: number;
@@ -29,6 +29,7 @@ export interface Food {
 
   servingSizePerMealPrep?: number;
   mealPrepsPerContainer?:number;
+  containersPerMealPrep?:number;
   // search strings
   nameSearchStrings?: string[];
   brandSearchStrings?: string[];

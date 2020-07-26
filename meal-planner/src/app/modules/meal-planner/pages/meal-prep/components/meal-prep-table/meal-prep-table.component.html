@@ -1,0 +1,36 @@
+<table>
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header }}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th colspan="5">BREAKFAST</th>
+    </tr>
+    <tr *ngFor="let food of breakfastMealPrep">
+      <td *ngFor="let header of headers; index as i">
+        {{ getObjectValues(food)[i] }}
+      </td>
+    </tr>
+    
+    <tr>
+      <th colspan="5">LUNCH</th>
+    </tr>
+    <tr *ngFor="let food of lunchMealPrep">
+      <td *ngFor="let header of headers; index as i">
+        {{ getObjectValues(food)[i] }}
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="5">DINNER</th>
+    </tr>
+    <tr *ngFor="let food of dinnerMealPrep">
+      <td *ngFor="let header of headers; index as i">
+        {{ getObjectValues(food)[i] }}
+      </td>
+    </tr>
+  </tbody>
+</table>  

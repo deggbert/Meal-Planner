@@ -1,0 +1,45 @@
+button {
+  margin: 5px;
+}
+.bttn {
+  margin: 0;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  font-size: 12px;
+  text-align: center;
+}
+.bttn-order {
+  margin: 0;
+  padding: 0;
+  margin-left: 5px;
+  width: fit-content;
+  height: 18px;
+  display: inline-block;
+  font-size: 12px;
+  text-align: center;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  max-width: 100px;
+  height: 20px;
+  text-align: center;
+  font-size: 12px;
+}
+
+th {
+  background-color: slategray;
+}
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
