@@ -3,7 +3,7 @@ import { SharedModule } from '../../shared-module/shared.module';
 
 import { PantryRoutingModule } from './pantry-routing.module';
 
-import { PantryComponent } from './page/pantry.component';
+import { PantryComponent } from './page/pantry.page';
 import { PantryTableComponent } from './components/pantry-table/pantry-table.component';
 import { GroceryTripComponent } from './components/grocery-trip/grocery-trip.component';
 

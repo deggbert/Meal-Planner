@@ -10,8 +10,8 @@ import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
 
 @Component({
   selector: 'app-daily-meal-plan',
-  templateUrl: './daily-meal-plan.component.html',
-  styleUrls: ['./daily-meal-plan.component.css'],
+  templateUrl: './daily-meal-plan.page.html',
+  styleUrls: ['./daily-meal-plan.page.css'],
 })
 export class DailyMealPlanComponent implements OnInit {
   breakfastData: MealItem[];

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router'
 
 import { DailyMealPlanService } from 'src/app/core/services/daily-meal-plan.service';
 
@@ -7,11 +7,11 @@ import { MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 
 @Component({
-  selector: 'app-meal-prep',
-  templateUrl: './meal-prep.component.html',
-  styleUrls: ['./meal-prep.component.css']
+  selector: 'app-pantry',
+  templateUrl: './pantry.page.html',
+  styleUrls: ['./pantry.page.css']
 })
-export class MealPrepComponent implements OnInit {
+export class PantryComponent implements OnInit {
 
   breakfastData: MealItem[];
   lunchData: MealItem[];

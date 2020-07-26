@@ -8,8 +8,8 @@ import { FoodSearchComponent } from '../../../shared-components/food-search/food
 
 @Component({
   selector: 'app-food-database',
-  templateUrl: './food-database.component.html',
-  styleUrls: ['./food-database.component.css']
+  templateUrl: './food-database.page.html',
+  styleUrls: ['./food-database.page.css']
 })
 export class FoodDatabaseComponent implements OnInit, OnDestroy {
   @ViewChild(FoodSearchComponent) public foodSearch: FoodSearchComponent;  //??** Is there a way to do this with template reference variable

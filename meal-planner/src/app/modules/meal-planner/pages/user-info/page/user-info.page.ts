@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { tap } from 'rxjs/operators';
-
 import { UserInfoService } from 'src/app/core/services/user-info.service';
 
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
@@ -26,8 +24,8 @@ enum UserInfoHeaders {
 
 @Component({
   selector: 'app-user-info',
-  templateUrl: './user-info.component.html',
-  styleUrls: ['./user-info.component.css']
+  templateUrl: './user-info.page.html',
+  styleUrls: ['./user-info.page.css']
 })
 export class UserInfoComponent implements OnInit {
   

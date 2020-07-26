@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared-module/shared.module';
 
 import { MealPrepRoutingModule } from './meal-prep-routing.module';
-import { MealPrepComponent } from './page/meal-prep.component';
+import { MealPrepComponent } from './page/meal-prep.page';
 import { MealPrepTableComponent } from './components/meal-prep-table/meal-prep-table.component';
 
 

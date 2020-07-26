@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DailyMealPlanComponent } from './page/daily-meal-plan.component';
+import { DailyMealPlanComponent } from './page/daily-meal-plan.page';
 
 const routes: Routes = [
   { 

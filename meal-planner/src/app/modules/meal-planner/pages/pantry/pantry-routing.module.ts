@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PantryComponent } from './page/pantry.component';
+import { PantryComponent } from './page/pantry.page';
 
 const routes: Routes = [
   { 

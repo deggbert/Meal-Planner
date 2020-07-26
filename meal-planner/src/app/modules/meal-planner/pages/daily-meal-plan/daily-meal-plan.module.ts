@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared-module/shared.module';
 
 import { DailyMealPlanRoutingModule } from './daily-meal-plan-routing.module';
-import { DailyMealPlanComponent } from './page/daily-meal-plan.component';
+import { DailyMealPlanComponent } from './page/daily-meal-plan.page';
+
 import { DailyMacrosComponent } from './components/daily-macros/daily-macros.component';
 import { DailyMealPlanTableComponent } from './components/daily-meal-plan-table/daily-meal-plan-table.component';
-
 
 @NgModule({
   declarations: [

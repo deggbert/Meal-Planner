@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MealPrepComponent } from './page/meal-prep.component';
+import { MealPrepComponent } from './page/meal-prep.page';
 
 const routes: Routes = [{ path: '', component: MealPrepComponent }];
 
