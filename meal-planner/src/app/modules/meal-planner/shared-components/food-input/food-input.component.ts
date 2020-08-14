@@ -24,6 +24,7 @@ export class FoodInputComponent implements OnInit {
   ngOnInit(): void {
   }
   
+  // TODO: add units to container size and servings (html)
   addFood(): void {
     if (this.foodList.some(food =>
       food.name === this.food.name &&

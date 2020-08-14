@@ -4,6 +4,10 @@ import { MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
 
+// TODO: add error if serving size has not been selected before trying to save.
+// TODO-F: add way to save old meal plans as favorites
+// TODO: use sortable library to make table drag and drop sortable
+// TODO: add legend for colors that indicate if too much or too little
 enum FoodHeaders {
   'FOOD' = 'name',
   'BRAND' = 'brand',
@@ -174,7 +178,10 @@ export class DailyMealPlanTableComponent implements OnInit {
       this.dinnerEvent.emit(this.dinner);
     }
   }
+  
 
+  // TODO: update calcs to calc based on units
+  // TODO: add error messages or checks for infinte values => set output to 'calculation error'
   calculateValues(food: Food): void {
     food.servingsPerContainer = +(food.containerSize / food.servingSize).toFixed(2);
     food.servingSizePerMeal = +(food.servingSize * food.servingsPerMeal).toFixed(2);

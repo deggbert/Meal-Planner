@@ -15,7 +15,9 @@ export class AuthGuard implements CanActivate {
     private auth: AuthService, 
     private router: Router,
   ) { }
-
+  
+  // TODO: add message when you try to access page when you are not logged in OR hide header buttons when not logged in
+  // TODO: add guard for leaving page to prevent user from leaving page without saving(may be in new file)
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.auth.user$.pipe(
       take(1),

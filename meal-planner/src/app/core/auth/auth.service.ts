@@ -82,7 +82,6 @@ export class AuthService {
     
     this.afAuth.signInWithEmailAndPassword(testUserData.email, testUserData.password)
       .catch(err => {
-        debugger;
         let errCode = err.code;
         let errMessage = err.message;
         if (errCode === 'auth/invalid-email') {

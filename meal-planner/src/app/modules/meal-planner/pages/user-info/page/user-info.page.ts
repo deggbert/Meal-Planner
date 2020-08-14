@@ -6,7 +6,10 @@ import { UserInfoService } from 'src/app/core/services/user-info.service';
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
 
 // ?? Is this useful for table?
-// ?? TODO: using to get values from object ... maybe enum with fields (i.e. activity level) and numbers and then grab values from array at index
+// ??TODO: using to get values from object ... maybe enum with fields (i.e. activity level) and numbers and then grab values from array at index
+// ??TODO: add gender to user login or make it one time set
+// TODO: move all enums to enum folder
+// ??TODO: move protien/fat/carb percent calc and inpu to user info page
 enum UserInfoHeaders {
   'Sex:' = 'sex',
   'Weight (lbs):' = 'weight',
@@ -77,7 +80,8 @@ export class UserInfoComponent implements OnInit {
     this.isEdit = false;
     this.isUpdated = true;
   }
-
+  
+  // TODO: add save/warning message to edit button (have text on button change with click so you know the action that will happend when you click)
   toggleEdit(): void {
     this.isEdit = !this.isEdit;
     if (this.isEdit) {

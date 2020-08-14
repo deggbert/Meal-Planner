@@ -106,6 +106,7 @@ export class PantryTableComponent implements OnInit {
     });
   }
 
+  // TODO: add save/warning message to edit button (have text on button change with click so you know the action that will happend when you click)
   toggleEdit(): void {
     this.isEdit = !this.isEdit;
   }

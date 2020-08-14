@@ -8,6 +8,8 @@ import { Food } from 'src/app/shared/interfaces/food.interface';
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
 import { DailyMacros } from 'src/app/shared/interfaces/daily-macros.interface';
 
+// TODO: add notification when you access page if your food data has been updated so you know that your meal plan values have changed
+// TODO: disable update button if nothing has changed
 @Component({
   selector: 'app-daily-meal-plan',
   templateUrl: './daily-meal-plan.page.html',

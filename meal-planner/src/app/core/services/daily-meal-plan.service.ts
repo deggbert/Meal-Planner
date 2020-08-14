@@ -11,6 +11,8 @@ import { MessageService } from './message.service';
 import { DailyMealPlan, MealItem } from 'src/app/shared/interfaces/daily-meal-plan.interface';
 import { Food } from 'src/app/shared/interfaces/food.interface';
 
+// TODO: add action queue
+
 @Injectable({
   providedIn: 'root'
 })
