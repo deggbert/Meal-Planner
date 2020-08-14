@@ -10,5 +10,7 @@
 <ng-template #signIn>
   <button type="button" (click)="authService.googleSignIn()">Sign In With Google</button>
   <button type="button" (click)="authService.testUserSignIn(1)">Sign In Test User 1</button>
+  <button type="button" (click)="authService.testUserSignIn(11)">Sign In Test User 1: Wrong Password</button>
   <button type="button" (click)="authService.testUserSignIn(2)">Sign In Test User 2</button>
+  <button type="button" (click)="authService.testUserSignIn(3)">Sign In Test User 3: User Doesn't Exist</button>
 </ng-template>

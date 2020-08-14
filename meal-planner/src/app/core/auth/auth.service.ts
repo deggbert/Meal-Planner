@@ -67,12 +67,34 @@ export class AuthService {
   }
 
   // Create test users TODO: Remove when no longer needed
-  async testUserSignIn(number: number): Promise<void> {
-    const testUserData = {
-      email: `testUser${number}@email.test`,
-      password: `testUser${number}`,
+  testUserSignIn(number: number): void {
+    if (number === 11) {
+      var testUserData = {
+        email: `testUser1@email.test`,
+        password: `testUser${number}`,
+      }
+    } else {
+      var testUserData = {
+        email: `testUser${number}@email.test`,
+        password: `testUser${number}`,
+      }
     }
     
-    this.afAuth.signInWithEmailAndPassword(testUserData.email, testUserData.password);
+    this.afAuth.signInWithEmailAndPassword(testUserData.email, testUserData.password)
+      .catch(err => {
+        debugger;
+        let errCode = err.code;
+        let errMessage = err.message;
+        if (errCode === 'auth/invalid-email') {
+          alert('Invalid email.');
+        } else if (errCode === 'auth/user-not-found') {
+          alert('User does not exist.');
+        } else if (errCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errMessage)
+        }
+        console.log(err);
+      });
   }
 }
