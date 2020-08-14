@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './login-routing.module';
 
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './pages/login/login.page';
 import { GoogleLoginComponent } from './components/google-login/google-login.component';
 
 
