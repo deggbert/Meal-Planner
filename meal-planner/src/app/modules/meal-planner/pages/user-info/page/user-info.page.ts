@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+
+import { Subject, merge, Observable } from 'rxjs';
+import { debounceTime, first, takeUntil, tap } from 'rxjs/operators';
 
 import { UserInfoService } from 'src/app/core/services/user-info.service';
+import { QuestionControlService } from 'src/app/core/services/question-control.service';
 
+import { DynamicFormComponent } from 'src/app/shared/components/dynamic-forms/dynamic-form/dynamic-form.component';
 import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
+import { QuestionBase } from 'src/app/shared/components/dynamic-forms/models/question-base';
 
-// ?? Is this useful for table?
-// ??TODO: using to get values from object ... maybe enum with fields (i.e. activity level) and numbers and then grab values from array at index
-// ??TODO: add gender to user login or make it one time set
-// TODO: move all enums to enum folder
+import { initialQuestions, maleQuestions, femaleQuestions, testFormQuestions } from './user-info-form.model';
+
+
 // ??TODO: move protien/fat/carb percent calc and inpu to user info page
-enum UserInfoHeaders {
-  'Sex:' = 'sex',
-  'Weight (lbs):' = 'weight',
-  'Height (inches):' = 'height',
-  'Age (years):' = 'age',
-  'BMR:' = 'bmr',
-  'Activity Level:' = 'activityLevel',
-  'Daily Caloric Need:' = 'dailyCaloricNeed',
-  'Neck Circumference (inches):' = 'neckCircum',
-  'Waist Circumference (inches):' = 'waistCircum',
-  'Hip Circumference (inches):' = 'hipCircum',
-  'Body Fat Percent (%):' = 'bodyFatPerc',
-  'Lean Mass (lbs):' = 'leanMass',
+interface FormHistory {
+  formGroup: FormGroup;
+  userInfo: UserInfo;
 }
 
 @Component({
@@ -30,130 +26,173 @@ enum UserInfoHeaders {
   templateUrl: './user-info.page.html',
   styleUrls: ['./user-info.page.css']
 })
-export class UserInfoComponent implements OnInit {
-  
-  isEdit: boolean = false;
-  isUpdated: boolean = false;
-  userInfo: UserInfo = {}; //??TODO: use a resolver to get data before ---> resolver doesn't work with angularfiredocument = need to find alt solution
-  tempUserInfo: UserInfo;
-  
-  headers: string[] = [
-    'Sex:',
-    'Weight (lbs):',
-    'Height (inches):',
-    'Age (years):',
-    'BMR:',
-    'Activity Level:',
-    'Daily Caloric Need:',
-    'Neck Circumference (inches):',
-    'Waist Circumference (inches):',
-    'Hip Circumference (inches):',
-    'Body Fat Percent (%):',
-    'Lean Mass (lbs):',
-  ]
-
-  // TODO?: maybe should have sex as part of user login?? so that the user input form can't be toggled ***** NEED TO DO THIS  
-  // TODO?: maybe should have a component for male and female and use ngSwitch to make the page appropriate for each sex
-
-  activityLevels: [string, string][] = [
-    ["Sedentary (little or no excerise)", "1.2"],
-    ["Light (20 mins 1-3 days/week)", "1.375"],
-    ["Moderate (30 mins 3-5 days/week)", "1.55"],
-    ["Heavy (60 mins 5-7 days/week)", "1.725"],
-    ["Extreme (60 mins 2x/day)", "1.9"]
-  ]
-
+export class UserInfoComponent implements OnInit, OnDestroy {
+  //  TODO: move all subscription logic into tap operators and then merge all subscriptions -> allows for one subscribe and one takeuntil for unsub
+  //  TODO: create components for the male and female forms. only if i want to separate them from this component
   constructor(
-    private route: ActivatedRoute,
+    private route: ActivatedRoute, 
     private userInfoService: UserInfoService,
-  ) {
-    this.route.data.subscribe((data) => {
-      this.userInfo = data.userInfo;
-    });
-   }
+    private qcs: QuestionControlService,
+  ) { }
+  @ViewChild('initialForm') initialForm: DynamicFormComponent;
+  @ViewChild('maleForm') maleForm: DynamicFormComponent;
+  @ViewChild('femaleForm') femaleForm: DynamicFormComponent;
 
-  ngOnInit(): void { }
+  private _unsubscriber$: Subject<void> = new Subject();
+  private _formHistory: FormHistory = { formGroup: null, userInfo: null};
 
+  initialFormChange$: Observable<string>;
+  maleFormChange$: Observable<string>;
+  femaleFormChange$: Observable<string>;
+  maleCalcs$: Observable<string>;
+  femaleCalcs$: Observable<string>;
+   
+  formGroup: FormGroup;
+  initialFormGroup: FormGroup = new FormGroup({});
+  initialQuestions: QuestionBase<string>[] = initialQuestions;
+  maleFormGroup: FormGroup = new FormGroup({});
+  maleQuestions: QuestionBase<string>[] = maleQuestions;
+  femaleFormGroup: FormGroup = new FormGroup({});
+  femaleQuestions: QuestionBase<string>[] = femaleQuestions;
 
-  updateUserInfo(): void {
-    this.userInfoService.updateUserInfo(this.userInfo);
-    this.isEdit = false;
-    this.isUpdated = true;
+  // ??TODO: should i move all form generation into dynamic form component and just pass the questions to the forms
+  ngOnInit(): void {
+    this.qcs.addToFormGroup(this.initialFormGroup, this.initialQuestions);
+    this.qcs.addToFormGroup(this.maleFormGroup, this.maleQuestions);
+    this.qcs.addToFormGroup(this.femaleFormGroup, this.femaleQuestions);
+    this.getResolverData();
+    this.createFormChangeObservs();
+    this.createFormCalcObservs();
+    
+    merge(
+      this.initialFormChange$,
+      this.maleFormChange$,
+      this.femaleFormChange$,
+      this.maleCalcs$,
+      this.femaleCalcs$,
+    ).pipe(
+      takeUntil(this._unsubscriber$),
+    ).subscribe();
   }
-  
-  // TODO: add save/warning message to edit button (have text on button change with click so you know the action that will happend when you click)
-  toggleEdit(): void {
-    this.isEdit = !this.isEdit;
-    if (this.isEdit) {
-      this.tempUserInfo = Object.assign({}, this.userInfo);
-    }
-    if (!this.isEdit) {
-      this.isUpdated = false;
-    }
-    if (!this.isEdit && !this.isUpdated) {
-      this.userInfo = this.tempUserInfo;
-    }
-    if (this.userInfo.sex === 'male') {
-      this.userInfo.hipCircum = null;
-    }
-  }
 
-  // Mifflin - St Jeor: equation for Basal Metabolic Rate
-  calcBmr(): void { // ?? doesn't error if values are not a string - b/c value set to null
-    if (this.userInfo?.sex && this.userInfo.weight && this.userInfo.height && this.userInfo.age) {  // ?? is it better to use ! and ||
-      if (this.userInfo?.sex === "male" ) {
-        this.userInfo.bmr = Math.round((4.536 * this.userInfo.weight) + (15.88 * this.userInfo.height) - (5 * this.userInfo.age) + 5);
+  getResolverData(): void {
+    this.route.data.pipe(
+      first(),
+    ).subscribe((data) => {
+      this._formHistory.userInfo = data.userInfo;
+      if (data.userInfo?.sex === 'Male') {
+        this.maleFormGroup.patchValue(data.userInfo);
+        this.formGroup = this.maleFormGroup;
+        this._formHistory.formGroup = this.maleFormGroup;
+      } else if (data.userInfo?.sex === 'Female') {
+        this.femaleFormGroup.patchValue(data.userInfo);
+        this.formGroup = this.femaleFormGroup;
+        this._formHistory.formGroup = this.femaleFormGroup;
       } else {
-        this.userInfo.bmr = Math.round((4.536 * this.userInfo.weight) + (15.88 * this.userInfo.height) - (5 * this.userInfo.age) - 161);
+        this.formGroup = this.initialFormGroup;
+        this._formHistory.formGroup = this.initialFormGroup;
       }
-    }
+    });
   }
 
-  calcDailyCaloricNeed(): void {
-    if (this.userInfo.bmr && this.userInfo.activityLevel) {
-      this.userInfo.dailyCaloricNeed = this.userInfo.bmr * this.userInfo.activityLevel;
-    }
+  createFormChangeObservs(): void {
+    this.initialFormChange$ = this.initialFormGroup.controls['sex'].valueChanges.pipe(
+      tap((sex) => {
+        if (sex === 'Male') {
+          this.maleFormGroup.patchValue(this.initialFormGroup.getRawValue(), {emitEvent: false});
+          this.maleForm.isEdit = true;
+          this.formGroup = this.maleFormGroup;
+        } else {
+          this.femaleFormGroup.patchValue(this.initialFormGroup.getRawValue(), {emitEvent: false});
+          this.femaleForm.isEdit = true;
+          this.formGroup = this.femaleFormGroup;
+        }
+    
+      })
+    );
+    this.maleFormChange$ = this.maleFormGroup.controls['sex'].valueChanges.pipe(
+      tap((sex) => {
+        if (sex == 'Female') {
+          this.femaleFormGroup.patchValue(this.maleFormGroup.getRawValue(), {emitEvent: true}); 
+          let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.femaleFormGroup.value);
+          this.femaleFormGroup.patchValue(calcdUserInfoValues);
+          setTimeout(() => this.maleForm.isEdit = false, 0);
+          this.femaleForm.isEdit = true;
+          this.formGroup = this.femaleFormGroup;
+        }   
+      }),
+    );
+    this.femaleFormChange$ = this.femaleFormGroup.controls['sex'].valueChanges.pipe(
+      tap((sex) => {
+        if (sex == 'Male') {
+          this.maleFormGroup.patchValue(this.femaleFormGroup.getRawValue(), {emitEvent: true});
+          let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.maleFormGroup.value);
+          this.maleFormGroup.patchValue(calcdUserInfoValues);
+          this.femaleForm.isEdit = false;
+          this.maleForm.isEdit = true;
+          this.formGroup = this.maleFormGroup;
+        }
+      }),
+    );
+  }
+   
+  createFormCalcObservs(): void {
+    this.maleCalcs$ = merge(this.maleFormGroup.controls['unitSystem'].valueChanges,
+      this.maleFormGroup.controls['height'].valueChanges,
+      this.maleFormGroup.controls['weight'].valueChanges,
+      this.maleFormGroup.controls['age'].valueChanges,
+      this.maleFormGroup.controls['activityLevel'].valueChanges,
+      this.maleFormGroup.controls['neckCircum'].valueChanges,
+      this.maleFormGroup.controls['waistCircum'].valueChanges,
+    ).pipe(
+      debounceTime(500),
+      tap(() => {
+        // let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.maleFormGroup.getRawValue());
+        // this.maleFormGroup.patchValue(calcdUserInfoValues);
+      }),
+    );
+    this.femaleCalcs$ = merge(this.femaleFormGroup.controls['unitSystem'].valueChanges,
+      this.femaleFormGroup.controls['height'].valueChanges,
+      this.femaleFormGroup.controls['weight'].valueChanges,
+      this.femaleFormGroup.controls['age'].valueChanges,
+      this.femaleFormGroup.controls['activityLevel'].valueChanges,
+      this.femaleFormGroup.controls['neckCircum'].valueChanges,
+      this.femaleFormGroup.controls['waistCircum'].valueChanges,
+      this.femaleFormGroup.controls['hipCircum'].valueChanges,
+    ).pipe(
+      debounceTime(500),
+      tap(() => {
+        let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.femaleFormGroup.getRawValue());
+        this.femaleFormGroup.patchValue(calcdUserInfoValues);
+      }),
+    );
   }
 
-  // u.S. Navy Method: equation for Body Fat Percent
-  calcBodyFatPerc(): void {
-    if (this.userInfo?.sex === 'male') {
-      if (this.userInfo.neckCircum && this.userInfo.waistCircum) {
-        this.userInfo.bodyFatPerc = +(86.010 * Math.log10(this.userInfo.waistCircum - this.userInfo.neckCircum) - 70.041 * Math.log10(this.userInfo.height) + 36.76).toFixed(1);
-        this.calcLeanMass();
-      }
+  convertUnits(unitSystems): void {
+    let convertedUserInfoInputValues: UserInfo = this.userInfoService.convertUnits(unitSystems, this.formGroup.value);
+    this.formGroup.patchValue(convertedUserInfoInputValues, {emitEvent: false});
+  }
+
+  cancelFormEdit(): void {
+    this.initialForm.isEdit = false; // DONT LIKE THIS METHOD
+    this.maleForm.isEdit = false; // DONT LIKE THIS METHOD
+    this.femaleForm.isEdit = false; // DONT LIKE THIS METHOD
+    this.formGroup = this._formHistory.formGroup;
+    if (this._formHistory.formGroup === this.initialFormGroup) {
+      this.formGroup.reset({}, {emitEvent: false});
     } else {
-      if (this.userInfo.height && this.userInfo.neckCircum && this.userInfo.waistCircum && this.userInfo.hipCircum) {
-        this.userInfo.bodyFatPerc = +(163.205 * Math.log10(this.userInfo.waistCircum + this.userInfo.hipCircum - this.userInfo.neckCircum) - 97.684 * Math.log10(this.userInfo.height) - 78.387).toFixed(1);
-        this.calcLeanMass();
-      }
+      this.formGroup.patchValue(this._formHistory.userInfo, {emitEvent: false});
     }
   }
 
-  calcLeanMass(): void {
-    this.userInfo.leanMass = +(this.userInfo.weight - (this.userInfo.weight * this.userInfo.bodyFatPerc / 100)).toFixed(1);
+  saveUserInfo(): void {
+    this.userInfoService.saveUserInfo(this.formGroup.getRawValue());
+    this._formHistory.formGroup = this.formGroup;
+    this._formHistory.userInfo = this.formGroup.getRawValue();
   }
 
-  isEmptyObject(obj: any): any {
-    return (Object.keys(obj).length === 0);
-  }
-  
-  originalOrder = (a, b): number => {
-    return 0;
-  }
-  
-  getObjectValues(userInfo: UserInfo) {
-    let values: (string | number)[] = [];
-    for (let header of this.headers) {
-      let value = userInfo[UserInfoHeaders[header]];
-      if (typeof value === 'string') {
-        value = value[0].toUpperCase() + value.slice(1);
-      }
-      if (!value) {
-        value = 'N/A';
-      }
-      values.push(value);
-    }
-    return values;
+  ngOnDestroy(): void {
+    this._unsubscriber$.next();
+    this._unsubscriber$.complete();
   }
 }

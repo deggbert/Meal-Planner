@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../shared-module/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import { FoodDatabaseRoutingModule } from './food-database-routing.module';
 
 import { FoodDatabaseComponent } from './page/food-database.page';

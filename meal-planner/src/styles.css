@@ -1,4 +1,10 @@
 /* TODO: change styling on ALL pages - user prebuilt components from ionic */
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 
 /* Global Form Styling */
 /* TODO: need to create better margins for page ? possibly use grid layout */
@@ -7,106 +13,10 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
+
+/* TODO: check if anything still uses this style then REMOVE */
 /* ?? weird styling in firefox: if input is outside of form then it colors */
-.container {
-  width: fit-content;
-}
-
-form {
-  display: grid;
-  grid-template-columns: max-content 350px;
-  grid-gap: 5px;
-  padding: 5px;
-}
-
-form label {
-  grid-column: 1 / 2;
-  text-align: right;
-  border: 1px solid;
-  padding: 2px;
-  background-color: #c0c0c0;
-}
-
-form input {
-  grid-column: 2 / 3;
-  text-align: center;
-  padding: 0;
-}
-/* REMOVE arrows on input type="number" */
-/* Chrome, Safari, Edge, Opera */
-form input::-webkit-outer-spin-button,
-form input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-form input[type=number] {
-  -moz-appearance: textfield;
-}
-
-form select {
-  grid-column: 2 / 3;
-  
-  /* text-align-last: center; */
-  padding-left: 75px;
-
-  /* -ms-text-align-last: center;
-  -moz-text-align-last: center; */
-}
-
-/* form option {
-  direction: rtl;
+/* .container {
+  width: fit-content;  
 } */
 
-
-form .btn-reset {
-  grid-column: 1 / 2;
-}
-
-form .btn-submit {
-  grid-column: 2 / 3;
-}
-
-form .alert {
-  color: red;
-  background-color: black;
-  grid-column: 2 / 3;
-  padding: 5px;
-  text-align: center;
-}
-
-form.ng-valid {
-  border: 5px solid green;
-}
-form.ng-invalid {
-  border: 5px solid red;
-}
-
-form input.ng-valid {
-  border: 2px solid green;
-}
-form input.ng-invalid {
-  border: 2px solid red;
-}
-
-form input[type="radio"]:invalid {
-  box-shadow:0 0 3px red;
-}
-/* .ng-invalid[type="radio"] {
-  box-shadow:0 0 3px red;
-}  DOES THE SAME THING*/
-
-form input[readonly] {
-  background-color:#d2d2d2;
-}
-
-input {
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 16px;
-}
-
-input:disabled {
-  border-top: 1px solid;
-  border-right: 1px solid;
-  border-bottom: 1px solid;
-}

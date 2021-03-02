@@ -1,0 +1,6 @@
+<ng-container *ngTemplateOutlet="tpl"></ng-container>
+<ng-container *ngIf="isUnitVisible">
+  <div #unitDiv class="units">{{ unitSystems[unitSystem][units] }}</div>
+  <div #textCopyDiv class="text-copy">{{ value }}</div>
+</ng-container>
+

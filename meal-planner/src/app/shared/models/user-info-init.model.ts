@@ -2,16 +2,17 @@ import { UserInfo } from 'src/app/shared/interfaces/user-info.interface';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 export class UserInfoInit implements UserInfo {
+  unitSystem: string = null;
   sex: string = null;
-  weight: number = null;
-  height: number = null;
-  age: number = null;
+  weight: number = 1;
+  height: number = 1;
+  age: number = 1;
   bmr: number = null;
   activityLevel: number = null;
   dailyCaloricNeed: number = null;
-  neckCircum: number = null;
-  waistCircum: number = null;
-  hipCircum: number = null;
+  neckCircum: number = 1;
+  waistCircum: number = 1;
+  hipCircum: number = 1;
   bodyFatPerc: number = null;
   leanMass: number = null;
 }

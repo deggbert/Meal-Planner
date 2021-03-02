@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+
 import { FoodService } from 'src/app/core/services/food.service';
 
 import { Food } from 'src/app/shared/interfaces/food.interface';
-import { Subscription } from 'rxjs';
-import { FoodSearchComponent } from '../../../shared-components/food-search/food-search.component';
+
+import { FoodSearchComponent } from 'src/app/shared/components/food-search/food-search.component';
 
 @Component({
   selector: 'app-food-database',

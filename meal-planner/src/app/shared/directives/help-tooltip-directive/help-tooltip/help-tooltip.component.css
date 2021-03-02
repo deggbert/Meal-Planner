@@ -1,0 +1,60 @@
+:host {
+  position: relative;
+} 
+
+.tooltip-anchor {
+  position: relative;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 0 3px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+
+  background: red;
+
+  font-size: 11px;
+
+  /* disable text selection */
+  user-select: none; /* Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 100;
+  top: -7px;
+  left: 100%;
+
+  margin-left: 10px;
+  padding: 3px;
+  border: 2px solid black;
+  width: max-content;
+  max-width: 400px;
+  
+  background-color: grey;
+
+  font-size: 16px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.tooltip::after {
+  content: '';
+
+  position: absolute;
+  top: 7px;
+  left: -12px;
+  
+  border-top: 5px solid transparent;
+  border-right: 10px solid black;
+  border-bottom: 5px solid transparent;
+  
+  width: 0;
+  height: 0;
+}

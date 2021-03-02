@@ -1,0 +1,28 @@
+:host {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.units {
+  position: absolute;
+  z-index: 51;
+  right: 5px;
+
+  width: fit-content;
+
+  color: green;
+
+  pointer-events: none;
+}
+.text-copy {
+  position: fixed;
+  top: 0px;
+  left: -400px;
+
+  overflow: hidden;
+}

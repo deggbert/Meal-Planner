@@ -1,0 +1,38 @@
+<form *ngIf="isEdit; else userInfoDisplay" class="form" [formGroup]="formGroup">
+  <ng-container *ngIf="(unitSystem$ | async) as unitSystem; else unitlessQuestions">
+    <ng-container *ngFor="let question of questions">
+        <app-dynamic-form-question class="form__question" [question]="question" [formGroup]="formGroup" [unitSystem]="unitSystem"></app-dynamic-form-question>
+    </ng-container>
+  </ng-container>
+
+  <button class="form__bttn--cancel" type="button" (click)="cancelFormEdit()">CANCEL</button>
+  <button classs="form__bttn--bsubmit" type="button" [disabled]="!formGroup.valid" (click)="saveForm()">SAVE</button>
+
+  <div class="form__alert" [hidden]="formGroup.valid">
+    All inputs are required!
+  </div>
+</form>
+
+<ng-template #unitlessQuestions>
+  <ng-container *ngFor="let question of questions">
+      <app-dynamic-form-question class="form__question--unitless" [question]="question" [formGroup]="formGroup"></app-dynamic-form-question>
+  </ng-container>
+</ng-template>
+
+<ng-template #userInfoDisplay>
+  <div class="table">
+    <ng-container *ngFor="let question of questions">
+      <div class="table__col1-container">
+        <div *appHelpTooltip="question.labelTooltip" class="table__label">
+          {{ question.label }}
+        </div>
+      </div>
+      <div class="table__col2-container">
+        <div *appHelpTooltip="question.valueTooltip" class="table__value">
+          {{ formGroup.controls[question.key].value || 'Click Edit Button to Edit' }}
+        </div>
+      </div>
+    </ng-container>
+    <button [ngStyle]="{'visibility': isEdit ? 'hidden' : 'visible'}" class="table__bttn" type="button" (click)="enableFormEdit()">EDIT</button>
+  </div>
+</ng-template>

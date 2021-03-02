@@ -1,0 +1,28 @@
+:host {
+  position: fixed;
+  z-index: 100;
+  border: 2px solid black;
+  padding: 3px;
+  margin-top: -2px;
+  margin-left: 10px;
+  max-width: 400px;
+  background-color: grey;
+} 
+
+.tooltip {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+}
+
+.tooltip::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  top: 7px;
+  left: -12px;
+  border-top: 5px solid transparent;
+  border-right: 10px solid black;
+  border-bottom: 5px solid transparent;
+  align-self: center;
+}

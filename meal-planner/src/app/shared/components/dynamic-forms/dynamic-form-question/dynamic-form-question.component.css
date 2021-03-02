@@ -1,0 +1,93 @@
+.form__label, 
+.form__input,
+.form__select {
+  font-size: 16px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.form__col1-container {
+  grid-column: 1 / 2;
+  position: relative;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  border: 1px solid;
+  padding: 2px;
+
+  background-color: #c0c0c0;
+}
+.form__label {
+  text-align: right;
+}
+.form__col2-container {
+  grid-column: 2 / 3;
+  position: relative;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.ng-valid {
+  border: 2px solid green;
+}
+.ng-invalid {
+  border: 2px solid red;
+}
+.form__input {
+  padding: 0;
+
+  flex: 1 1 auto;
+  height: 100%;
+  
+  text-align: center;
+}
+.form__input[disabled] {
+  border: 2px solid grey; 
+
+  background-color:#d2d2d2;
+  color: black;
+}
+/* remove arrows on input[type=number] */
+/* Chrome, Safari, Edge, Opera */
+.form__input::-webkit-outer-spin-button,
+.form__input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+/* remove arrows on input[type=number] */
+/* Firefox */
+.form__input[type=number] {
+  -moz-appearance: textfield;
+}
+.form__select-wrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  flex: 1 1 auto;
+  height: 100%;
+}
+.form__select-wrapper::after {
+  content: "▼";
+
+  position: absolute;
+  z-index: 100;
+  right: 2px;
+  
+  pointer-events: none;
+}
+.form__select {
+  flex: 1 1 auto;
+  height: 100%;
+  
+  text-align-last: center; /* center selected option */
+
+  -webkit-appearance: none; /* remove Chrome arrows */
+  -moz-appearance: none; /* remove Firefox arrows */
+}
+
+/* .ng-invalid[type="radio"] {
+  box-shadow:0 0 3px red;
+}  */

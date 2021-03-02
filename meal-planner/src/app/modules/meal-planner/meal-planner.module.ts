@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { MealPlannerRoutingModule } from './meal-planner-routing.module';
-import { SharedModule } from './shared-module/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 import { HomeComponent } from './pages/home/home.component';
 

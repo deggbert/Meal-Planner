@@ -1,0 +1,4 @@
+<div class="tooltip-anchor" (mouseenter)="showTooltip()" (mouseleave)="hideTooltip()">
+  ?
+  <div *ngIf="isTooltip" [ngClass]="'tooltip'" [innerHtml]="tooltip"></div>
+</div>

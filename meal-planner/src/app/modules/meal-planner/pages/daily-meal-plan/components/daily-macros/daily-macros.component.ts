@@ -68,6 +68,7 @@ export class DailyMacrosComponent implements OnInit {
   }
 
   calcDailyCalories(): void {
+    if (typeof(this.userInfo.dailyCaloricNeed) === 'number')
     this.dailyCalories = +(this.userInfo.dailyCaloricNeed - this.cutCalories).toFixed(0);
     this.setCutCaloriesEvent.emit(this.cutCalories);
   }
@@ -77,6 +78,7 @@ export class DailyMacrosComponent implements OnInit {
       macro.calories = +(this.dailyCalories * macro.chosen / 100).toFixed(0);
       macro.grams = +(macro.calories / 9).toFixed(1);
     } else {
+      if (typeof(this.userInfo.leanMass) === 'number')
       macro.grams = +(this.userInfo.leanMass * macro.chosen).toFixed(1),
       macro.calories = +(macro.grams * 4).toFixed(0);
     }

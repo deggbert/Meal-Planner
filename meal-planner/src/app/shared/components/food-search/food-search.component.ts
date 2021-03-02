@@ -3,10 +3,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-import { FoodService } from '../../../../core/services/food.service';
+import { FoodService } from 'src/app/core/services/food.service';
 
-import { Food } from '../../../../shared/interfaces/food.interface';
-import { SearchTerms } from '../../../../shared/interfaces/search-terms.interface';
+import { Food } from 'src/app/shared/interfaces/food.interface';
+import { SearchTerms } from 'src/app/shared/interfaces/search-terms.interface';
 
 
 @Component({

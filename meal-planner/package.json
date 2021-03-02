@@ -2,15 +2,12 @@
   "name": "meal-planner",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve -o",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "t": "concurrently -n \"emulators,ngbuild\" \"firebase emulators:start --import dbInit\" \"ng build --watch\"",
-    "b": "ng build --watch",
-    "e": "firebase emulators:start --import dbInit"
+    "build": "ng build --watch",
+    "build prod": "ng build --watch --prod",
+    "emulate": "firebase emulators:start --import dbInit",
+    "export db": "firebase emulators:export dbInit --force",
+    "kill emulator": "kill-port 8080",
+    "t": "concurrently -n \"ngbuild,emulators\" \"ng build --watch\" \"firebase emulators:start --import dbInit\""
   },
   "private": true,
   "dependencies": {
@@ -27,6 +24,7 @@
     "concurrently": "^5.2.0",
     "firebase": "^7.14.4",
     "lodash": "^4.17.19",
+    "resize-observer": "^1.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -42,7 +40,6 @@
     "@types/lodash": "^4.14.157",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
-    "firebase-tools": "8.4.2",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",

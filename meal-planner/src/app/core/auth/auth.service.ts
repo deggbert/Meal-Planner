@@ -20,6 +20,7 @@ export class AuthService {
   uid: string = null;
   displayName: string = null;
 
+  // ??shoudl move subscriptions to ngonint
   constructor(
     private afAuth: AngularFireAuth, 
     private afStore: AngularFirestore,  
@@ -29,7 +30,7 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       tap(user => this.uid = user?.uid ?? null),
       tap(user => this.displayName = user?.displayName ?? null),
-      switchMap(user => {
+      switchMap((user) => {
         if (user) {
           return this.afStore.doc<User>(`users/${user.uid}`).valueChanges();
         } else {

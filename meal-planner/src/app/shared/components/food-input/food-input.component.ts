@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { FoodService } from '../../../../core/services/food.service';
+import { FoodService } from 'src/app/core/services/food.service';
 
-import { Food } from '../../../../shared/interfaces/food.interface';
+import { Food } from 'src/app/shared/interfaces/food.interface';
 
 @Component({
   selector: 'app-food-input',
