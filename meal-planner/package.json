@@ -6,8 +6,7 @@
     "build prod": "ng build --watch --prod",
     "emulate": "firebase emulators:start --import dbInit",
     "export db": "firebase emulators:export dbInit --force",
-    "kill emulator": "kill-port 8080",
-    "t": "concurrently -n \"ngbuild,emulators\" \"ng build --watch\" \"firebase emulators:start --import dbInit\""
+    "kill emulator": "kill-port 8080"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +20,6 @@
     "@angular/platform-browser-dynamic": "~10.2.4",
     "@angular/router": "~10.2.4",
     "angular-in-memory-web-api": "^0.10.0",
-    "concurrently": "^5.2.0",
     "firebase": "^7.14.4",
     "lodash": "^4.17.19",
     "resize-observer": "^1.0.0",
@@ -39,7 +37,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.157",
     "@types/node": "^12.11.1",
-    "codelyzer": "^5.1.2",
+    "codelyzer": "6.0.1",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
