@@ -18,10 +18,6 @@
 .form__question {
   display: contents;
 }
-.form__question--unitless {
-  display: contents;
-  background: red;
-}
 .form__alert {
   grid-column: 2 / 3;
   

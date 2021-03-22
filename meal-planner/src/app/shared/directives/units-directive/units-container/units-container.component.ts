@@ -26,7 +26,7 @@ export class UnitsContainerComponent implements AfterViewInit {
   set value(value: number | string) {
     this._value = value;
     if (this._unitSystem && typeof value !== 'string') {
-      this.isUnitVisible = true;
+      this.isUnitVisible = true; 
     } else {
       this.isUnitVisible = false;
     }

@@ -17,6 +17,7 @@ import { HelpTooltipDirective } from './directives/help-tooltip-directive/help-t
 import { HelpTooltipComponent } from './directives/help-tooltip-directive/help-tooltip/help-tooltip.component';
 import { UnitsDirective } from './directives/units-directive/units.directive';
 import { UnitsContainerComponent } from './directives/units-directive/units-container/units-container.component';
+import { UnitsPipe } from './pipes/units-pipe/units.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { UnitsContainerComponent } from './directives/units-directive/units-cont
     FoodSearchComponent,
 
     SortByPipe,
+    UnitsPipe,
 
     TooltipDirective,
     TooltipComponent,
@@ -52,6 +54,7 @@ import { UnitsContainerComponent } from './directives/units-directive/units-cont
     FoodSearchComponent,
 
     SortByPipe,
+    UnitsPipe,
 
     TooltipDirective,
     HelpTooltipDirective,

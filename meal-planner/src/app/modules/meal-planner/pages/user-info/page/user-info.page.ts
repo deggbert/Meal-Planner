@@ -100,22 +100,21 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     this.initialFormChange$ = this.initialForm.controls['sex'].valueChanges.pipe(
       tap((sex) => {
         if (sex === 'Male') {
-          this.maleForm.patchValue(this.initialForm.getRawValue(), {emitEvent: false});
+          this.maleForm.patchValue(this.initialForm.getRawValue(), {emitEvent: true});
+          let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.maleForm.value);
+          this.maleForm.patchValue(calcdUserInfoValues);
           this.maleFormEl.isEdit = true;
           this.form = this.maleForm;
         } else {
-          this.femaleForm.patchValue(this.initialForm.getRawValue(), {emitEvent: false});
+          this.femaleForm.patchValue(this.initialForm.getRawValue(), {emitEvent: true});
+          let calcdUserInfoValues: UserInfo = this.userInfoService.runCalcs(this.femaleForm.value);
+          this.femaleForm.patchValue(calcdUserInfoValues);
           this.femaleFormEl.isEdit = true;
           this.form = this.femaleForm;
         }
     
       })
     );
-    this.maleForm.controls.age.valueChanges.pipe(
-      tap(() => {
-        this.maleFormEl.isEdit = false;
-      })
-    ).subscribe();
     this.maleFormChange$ = this.maleForm.controls['sex'].valueChanges.pipe(
       tap((sex) => {
         if (sex == 'Female') {

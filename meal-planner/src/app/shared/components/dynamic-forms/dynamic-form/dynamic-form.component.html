@@ -1,9 +1,7 @@
 <form *ngIf="isEdit; else userInfoDisplay" class="form" [formGroup]="form">
-  <ng-container *ngIf="(unitSystem$ | async) as unitSystem; else unitlessQuestions">
     <ng-container *ngFor="let question of questions">
         <app-dynamic-form-question class="form__question" [question]="question" [form]="form" [unitSystem]="unitSystem"></app-dynamic-form-question>
     </ng-container>
-  </ng-container>
 
   <button class="form__bttn--cancel" type="button" (click)="cancelFormEdit()">CANCEL</button>
   <button classs="form__bttn--bsubmit" type="button" [disabled]="!form.valid" (click)="saveForm()">SAVE</button>
@@ -12,12 +10,6 @@
     All inputs are required!
   </div>
 </form>
-
-<ng-template #unitlessQuestions>
-  <ng-container *ngFor="let question of questions">
-      <app-dynamic-form-question class="form__question--unitless" [question]="question" [form]="form"></app-dynamic-form-question>
-  </ng-container>
-</ng-template>
 
 <ng-template #userInfoDisplay>
   <div class="table">
@@ -29,9 +21,8 @@
       </div>
       <div class="table__col2-container">
         <div *appHelpTooltip="question.valueTooltip" class="table__value">
-          {{ form.controls[question.key].value || 'Click Edit Button to Edit' }}
+          {{ (form.controls[question.key].value || 'Click Edit Button to Edit') | units:unitSystem:question.measurement }}
         </div>
-
       </div>
     </ng-container>
     <button class="table__bttn" type="button" (click)="enableFormEdit()">EDIT</button>

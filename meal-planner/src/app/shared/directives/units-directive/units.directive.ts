@@ -26,7 +26,7 @@ export class UnitsDirective implements OnChanges, OnInit {
   }    
 
   ngOnInit(): void { 
-    if (this.unitSystem && this.units) {
+    if (this.units) {
       const unitsContainerCompFactory = this.cfResolver.resolveComponentFactory(UnitsContainerComponent);
       this._unitsContainerCompRef = this.vcRef.createComponent(unitsContainerCompFactory);
       this._unitsContainerCompRef.instance.tpl = this.tplRef;

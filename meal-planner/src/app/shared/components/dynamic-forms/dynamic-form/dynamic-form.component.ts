@@ -25,17 +25,17 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private _unsubscriber$: Subject<void> = new Subject();
 
   unitSystem$: Observable<string>;
-  a$: Observable<string>;
   unitConversionCheck$: Observable<string[]>; 
   isEdit: boolean = false; 
 
+  unitSystem: string;
+
   ngOnInit(): void {
     if (this.form.controls['unitSystem']) {
-      this.unitSystem$ = (this.form.controls['unitSystem'].valueChanges as Subject<string>).asObservable().pipe(
-        publishBehavior(this.form.controls['unitSystem'].value),
-        refCount(),
-      );
-      this.unitConversionCheck$ = this.unitSystem$.pipe(
+      this.unitSystem = this.form.controls['unitSystem'].value;
+
+      this.unitConversionCheck$ = this.form.controls['unitSystem'].valueChanges.pipe(
+        tap((unitSystem) => this.unitSystem = unitSystem),
         pairwise(),
         tap(([prevUnitSystem, currentUnitSystem]) => {
           if (this.isEdit){
@@ -56,6 +56,32 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         takeUntil(this._unsubscriber$),
       ).subscribe()
     }
+    // if (this.form.controls['unitSystem']) {
+    //   this.unitSystem$ = (this.form.controls['unitSystem'].valueChanges as Subject<string>).asObservable().pipe(
+    //     publishBehavior(this.form.controls['unitSystem'].value),
+    //     refCount(),
+    //   );
+    //   this.unitConversionCheck$ = this.unitSystem$.pipe(
+    //     pairwise(),
+    //     tap(([prevUnitSystem, currentUnitSystem]) => {
+    //       if (this.isEdit){
+    //         if (prevUnitSystem && prevUnitSystem !== currentUnitSystem) {
+    //           if (confirm(`Would you like to convert your measurements from ${prevUnitSystem} to ${currentUnitSystem}?` + '\n' + 
+    //               'If you select cancel, the numbers will stay the same but the units will change.')) {
+    //             this.unitConversionEvent.emit({
+    //               prevUnitSystem: prevUnitSystem,
+    //               currentUnitSystem: currentUnitSystem,
+    //             });
+    //           }
+    //         }
+    //       }
+    //     }),
+    //   );
+      
+    //   this.unitConversionCheck$.pipe(
+    //     takeUntil(this._unsubscriber$),
+    //   ).subscribe()
+    // }
   }
 
   enableFormEdit(): void {
