@@ -1,12 +1,13 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy, ElementRef, ChangeDetectorRef, ViewRef, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Observable, merge } from 'rxjs';
-import { tap, pairwise, takeUntil, publishBehavior, refCount, timeout } from 'rxjs/operators'
+import { Observable, merge, BehaviorSubject } from 'rxjs';
+import { tap, pairwise, takeUntil, publishBehavior, publishReplay, shareReplay, refCount, timeout, startWith, multicast } from 'rxjs/operators'
 
 import { Subject } from 'rxjs';
 
 import { QuestionBase } from '../models/question-base';
+import { QuestionControlService } from 'src/app/core/services/question-control.service';
 
 
 @Component({
@@ -15,13 +16,7 @@ import { QuestionBase } from '../models/question-base';
   styleUrls: ['./dynamic-form.component.css'],
 })
 export class DynamicFormComponent implements OnInit, OnDestroy {
-  constructor (
-    private cdr: ChangeDetectorRef,
-    private vr: ViewRef,
-    private vcr: ViewContainerRef,
-  ) {}
-
-  @Input() formGroup: FormGroup;
+  @Input() form: FormGroup;
   @Input() questions: QuestionBase<string>[] = [];
   @Output() unitConversionEvent = new EventEmitter<{[key: string]: string}>();
   @Output() formCancelEvent = new EventEmitter<void>();
@@ -30,18 +25,15 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private _unsubscriber$: Subject<void> = new Subject();
 
   unitSystem$: Observable<string>;
+  a$: Observable<string>;
   unitConversionCheck$: Observable<string[]>; 
-  isEdit: boolean = false;
+  isEdit: boolean = false; 
 
   ngOnInit(): void {
-    let b = this.vr;
-    let c = this.vcr;
-    let a = this.cdr;
-    if (this.formGroup.controls['unitSystem']) {
-      this.unitSystem$ = this.formGroup.controls['unitSystem'].valueChanges.pipe(
-        publishBehavior(this.formGroup.controls['unitSystem'].value),
+    if (this.form.controls['unitSystem']) {
+      this.unitSystem$ = (this.form.controls['unitSystem'].valueChanges as Subject<string>).asObservable().pipe(
+        publishBehavior(this.form.controls['unitSystem'].value),
         refCount(),
-        tap(console.log),
       );
       this.unitConversionCheck$ = this.unitSystem$.pipe(
         pairwise(),
@@ -58,14 +50,11 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
             }
           }
         }),
-        // timeout(7000),
       );
-
-      // merge(
-      //   this.unitConversionCheck$,
-      // ).pipe(
-      //   takeUntil(this._unsubscriber$),
-      // ).subscribe()
+      
+      this.unitConversionCheck$.pipe(
+        takeUntil(this._unsubscriber$),
+      ).subscribe()
     }
   }
 

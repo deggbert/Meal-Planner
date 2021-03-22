@@ -1,16 +1,16 @@
 <h2>User Info</h2>
-<app-dynamic-form #initialForm [hidden]="formGroup !== initialFormGroup" [formGroup]="initialFormGroup" [questions]="initialQuestions"></app-dynamic-form>
-<app-dynamic-form #maleForm 
-    [hidden]="formGroup !== maleFormGroup" 
-    [formGroup]="maleFormGroup" 
+<app-dynamic-form #initialFormEl [hidden]="form !== initialForm" [form]="initialForm" [questions]="initialQuestions"></app-dynamic-form>
+<app-dynamic-form #maleFormEl
+    [hidden]="form !== maleForm"
+    [form]="maleForm"
     [questions]="maleQuestions" 
     (unitConversionEvent)="convertUnits($event)"s
     (formCancelEvent)="cancelFormEdit()"
     (formSaveEvent)="saveUserInfo()">
 </app-dynamic-form>
-<app-dynamic-form #femaleForm 
-    [hidden]="formGroup !== femaleFormGroup"   
-    [formGroup]="femaleFormGroup" 
+<app-dynamic-form #femaleFormEl 
+    [hidden]="form !== femaleForm"
+    [form]="femaleForm" 
     [questions]="femaleQuestions" 
     (unitConversionEvent)="convertUnits($event)"
     (formCancelEvent)="cancelFormEdit()"

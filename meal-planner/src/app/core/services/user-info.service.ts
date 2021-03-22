@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
@@ -24,6 +24,7 @@ export class UserInfoService {
     private authService: AuthService,
     private afStore: AngularFirestore,
     private messageService: MessageService,
+    private ngZone: NgZone,
   ) { }
 
   /** GET: get user's info from userInfo collection on firestore server */
@@ -39,7 +40,7 @@ export class UserInfoService {
       }),
     );
   }
-    
+
   saveUserInfo(userInfo: UserInfo): void {
     this.actionQueue.then(() => this._saveUserInfo(userInfo));
   }

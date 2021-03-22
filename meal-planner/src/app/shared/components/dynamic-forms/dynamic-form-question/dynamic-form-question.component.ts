@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
@@ -14,18 +14,18 @@ import { unitSystems } from 'src/app/shared/models/unit-systems.model'
 })
 export class DynamicFormQuestionComponent {
   @Input() question: QuestionBase<string>;
-  @Input() formGroup: FormGroup;
+  @Input() form: FormGroup;
   @Input() unitSystem: string;
 
   unitSystems = unitSystems;
 
   get isValid(): boolean {
-    return this.formGroup.controls[this.question.key].valid;
+    return this.form.controls[this.question.key].valid;
   }
 
   convertToNumber(event: Event): void {
     if (this.question.type === 'number') {
-      this.formGroup.controls[this.question.key].setValue(+(event.target as HTMLInputElement).value);
+      this.form.controls[this.question.key].setValue(+(event.target as HTMLInputElement).value);
     }
   }
   
@@ -33,6 +33,6 @@ export class DynamicFormQuestionComponent {
     if (this.question.type === 'number') {
       return true;
     }
-    return /^(\d+\.\d+|\d+)$/.test(this.formGroup.controls[this.question.key].value);
+    return /^(\d+\.\d+|\d+)$/.test(this.form.controls[this.question.key].value);
   }
 }
