@@ -7,7 +7,7 @@ import { unitSystems } from 'src/app/shared/models/unit-systems.model';
 export class UnitsPipe implements PipeTransform {
 
   transform(value: number, unitSystem?: string, measurement?: string): (number | string) {
-    if (!measurement) {
+    if (!unitSystem || !measurement) {
       return value;
     }
     return value + ' ' + unitSystems[unitSystem][measurement];

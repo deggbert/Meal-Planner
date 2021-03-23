@@ -21,7 +21,8 @@
       </div>
       <div class="table__col2-container">
         <div *appHelpTooltip="question.valueTooltip" class="table__value">
-          {{ (form.controls[question.key].value || 'Click Edit Button to Edit') | units:unitSystem:question.measurement }}
+          <!-- {{ (form.controls[question.key].value || 'Click Edit Button to Edit') | units:unitSystem:question.measurement }} -->
+          {{ (form.controls[question.key].value || 'Click Edit Button to Edit') }}
         </div>
       </div>
     </ng-container>

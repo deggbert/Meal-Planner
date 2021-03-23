@@ -20,6 +20,9 @@ import { UnitsContainerComponent } from './directives/units-directive/units-cont
 import { UnitsPipe } from './pipes/units-pipe/units.pipe';
 
 @NgModule({
+  providers: [
+    UnitsPipe,
+  ],
   declarations: [
     DynamicFormQuestionComponent,
     DynamicFormComponent,

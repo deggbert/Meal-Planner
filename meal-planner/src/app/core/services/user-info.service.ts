@@ -58,11 +58,20 @@ export class UserInfoService {
   }
 
   runCalcs(userInfo: UserInfo): UserInfo {
+    this.parseStrings(userInfo);
     this.calcBmr(userInfo);
     this.calcDailyCaloricNeed(userInfo);
     this.calcBodyFatPerc(userInfo);
     this.calcLeanMass(userInfo);
     return (({bmr, dailyCaloricNeed, bodyFatPerc, leanMass}) => ({bmr, dailyCaloricNeed, bodyFatPerc, leanMass}))(userInfo);
+  }
+  parseStrings(userInfo: UserInfo): void {
+    Object.keys(userInfo).map((key) => {
+      let a = parseFloat(userInfo[key]);
+      if (!isNaN(parseFloat(userInfo[key]))) {
+        userInfo[key] = parseFloat(userInfo[key]);
+      }
+    })
   }
   // Mifflin - St Jeor: equation for Basal Metabolic Rate
   calcBmr(userInfo: UserInfo): void {
