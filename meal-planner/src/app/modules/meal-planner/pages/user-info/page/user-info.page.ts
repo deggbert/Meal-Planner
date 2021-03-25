@@ -137,7 +137,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
           this.maleFormEl.isEdit = true;
           this.form = this.maleForm;
         }
-      }),
+      }),  
     );
   }
 

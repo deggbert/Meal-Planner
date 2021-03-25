@@ -5,25 +5,13 @@
 
   <div [ngSwitch]="question.controlType" class="form__col2-container">
     <ng-container *ngSwitchCase="'textbox'">
-        <!-- **TODO: unitSystem would undefined if no unitsystem -->
-        <input *appHelpTooltip="question.valueTooltip"
-            class="form__input"  
-            [formControlName]="question.key" 
-            [id]="question.key" 
-            (focus)="clearUnits($event)"
-            (blur)="addUnits()">
-      </ng-container>
-    <!-- <ng-container *ngSwitchCase="'textbox'">
-      <ng-container *appHelpTooltip="question.valueTooltip">
-        <input *appUnits="question.measurement; unitSystem : unitSystem; value : form.controls[question.key].value" 
-            class="form__input"  
-            [formControlName]="question.key" 
-            [id]="question.key" 
-            [type]="question.type"
-            (input)="convertToNumber($event)"
-            [value]="this.form.controls[question.key].value | units:unitSystem:question.measurement">
-      </ng-container>
-    </ng-container> -->
+      <input *appHelpTooltip="question.valueTooltip"
+          class="form__input"  
+          [formControlName]="question.key" 
+          [id]="question.key" 
+          (focus)="clearUnits($event)"
+          (blur)="addUnits()">
+    </ng-container>
 
     <ng-container *ngSwitchCase="'dropdown'">
       <div class="form__select-wrapper" *appHelpTooltip="question.valueTooltip">
@@ -32,7 +20,7 @@
             [formControlName]="question.key"
             [id]="question.key">
           <option  value="undefined" selected disabled hidden>------ Select an option ------</option>
-          <option *ngFor="let option of question.options" [ngValue]="option.value">{{option.key}}</option>
+          <option *ngFor="let option of question.selectOptions" [ngValue]="option.value">{{option.key}}</option>
         </select>
       </div>
     </ng-container>
